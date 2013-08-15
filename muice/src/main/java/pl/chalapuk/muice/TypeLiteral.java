@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Maciej Chałapuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -82,7 +82,7 @@ import com.google.common.base.Objects;
  * 
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
  */
-public class TypeLiteral<T> {
+public final class TypeLiteral<T> {
     private final Class<? super T> mRawType;
     private final TypeLiteral<?>[] mTypeArguments;
 
