@@ -67,9 +67,19 @@ import javax.inject.Provider;
 public interface InitializableProvider<T> extends Provider<T> {
 
     /**
-     * Invoked before first call to {@link #get()} method.
+     * Invoked by Muice before first call to {@link #get()} method.
      * 
      * @param injector injector to be used by the provider
      */
     void initialize(Injector injector);
+
+    /**
+     * Provides an instance of {@code T}.
+     * 
+     * @throws InjectionError if an instance cannot be provided. Such exceptions
+     *             include messages and throwables to describe why provision
+     *             failed.
+     */
+    @Override
+    T get();
 }
