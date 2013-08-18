@@ -19,10 +19,9 @@ package pl.chalapuk.muice;
 import javax.inject.Inject;
 
 /**
- * An object capable of providing instances of type {@code T} used as a primary
- * abstraction to represent binding target in Muice injectors.
+ * An object capable of providing instances of type {@code T}.
  * <p>
- * Besides injector internals Providers are used in following ways:
+ * Providers are used by Muice in following ways:
  * <ul>
  * <li>Classes implementing {@code Provider<T>} may be used as binding target
  * for {@code Key<T>}. Provider implementations must be bound to themselves
@@ -67,6 +66,9 @@ public interface Provider<T> extends javax.inject.Provider<T> {
 
     /**
      * Invoked by Muice before first call to {@link #get()} method.
+     * <p>
+     * This method should be used in cases when one-time initialization is
+     * needed before providing any instance of {@code T}.
      * 
      * @param injector injector to be used by the provider
      */
