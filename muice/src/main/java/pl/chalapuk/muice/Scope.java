@@ -50,6 +50,5 @@ public interface Scope {
      *         provider when an instance of the requested object doesn't already
      *         exist in this scope
      */
-    <T> InitializableProvider<? extends T> decorate(
-            Key<T> key, InitializableProvider<? extends T> unscoped);
+    <T> Provider<? extends T> decorate(Key<T> key, Provider<? extends T> unscoped);
 }

@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 
 /**
  * Used by {@linkplain BindingModule binding modules} to configure binding
@@ -274,12 +273,17 @@ public interface Binder {
         /**
          * @see Binder documentation of Guice Binding EDSL
          */
-        ScopingBuilder toProvider(InitializableProvider<? extends T> provider);
+        ScopingBuilder toProvider(javax.inject.Provider<? extends T> provider);
 
         /**
          * @see Binder documentation of Guice Binding EDSL
          */
         ScopingBuilder toConstructor(Constructor<? extends T> constructor);
+
+        /**
+         * @see Binder documentation of Guice Binding EDSL
+         */
+        ScopingBuilder toProducer(Producer<? extends T> producer);
     }
 
     /**

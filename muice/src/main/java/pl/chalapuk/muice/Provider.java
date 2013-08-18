@@ -17,7 +17,6 @@
 package pl.chalapuk.muice;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 /**
  * An object capable of providing instances of type {@code T} used as a primary
@@ -64,7 +63,7 @@ import javax.inject.Provider;
  * @author crazybob@google.com (Bob Lee)
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
  */
-public interface InitializableProvider<T> extends Provider<T> {
+public interface Provider<T> extends javax.inject.Provider<T> {
 
     /**
      * Invoked by Muice before first call to {@link #get()} method.
@@ -77,7 +76,7 @@ public interface InitializableProvider<T> extends Provider<T> {
      * Provides an instance of {@code T}.
      * 
      * @throws InjectionError if an instance cannot be provided. Such exceptions
-     *             include messages and throwables to describe why provision
+     *             include messages and throwables to describe why injection
      *             failed.
      */
     @Override

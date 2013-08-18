@@ -20,7 +20,7 @@ import javax.inject.Singleton;
 
 import pl.chalapuk.muice.Injector;
 import pl.chalapuk.muice.Key;
-import pl.chalapuk.muice.InitializableProvider;
+import pl.chalapuk.muice.Provider;
 import pl.chalapuk.muice.Scope;
 
 import com.google.common.base.Function;
@@ -37,8 +37,7 @@ public enum Scopes implements Scope {
      */
     NONE {
         @Override
-        public <T> InitializableProvider<? extends T> decorate(
-                Key<T> key, InitializableProvider<? extends T> unscoped) {
+        public <T> Provider<? extends T> decorate(Key<T> key, Provider<? extends T> unscoped) {
             return unscoped;
         }
     },
@@ -48,19 +47,18 @@ public enum Scopes implements Scope {
      */
     SINGLETON {
         @Override
-        public <T> InitializableProvider<? extends T> decorate(
-                Key<T> key, final InitializableProvider<? extends T> unscoped) {
+        public <T> Provider<? extends T> decorate(Key<T> key, final Provider<? extends T> unscoped) {
 
-            return new InitializableProvider<T>() {
-                private Function<InitializableProvider<? extends T>, T> mGetter = new Function<InitializableProvider<? extends T>, T>() {
+            return new Provider<T>() {
+                private Function<Provider<? extends T>, T> mGetter = new Function<Provider<? extends T>, T>() {
 
                     @Override
-                    public T apply(InitializableProvider<? extends T> p) {
+                    public T apply(Provider<? extends T> p) {
                         final T val = p.get();
-                        mGetter = new Function<InitializableProvider<? extends T>, T>() {
+                        mGetter = new Function<Provider<? extends T>, T>() {
 
                             @Override
-                            public T apply(InitializableProvider<? extends T> arg0) {
+                            public T apply(Provider<? extends T> arg0) {
                                 return val;
                             }
                         };
