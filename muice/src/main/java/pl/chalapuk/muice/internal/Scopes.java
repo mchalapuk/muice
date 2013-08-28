@@ -17,10 +17,9 @@
 package pl.chalapuk.muice.internal;
 
 import javax.inject.Singleton;
+import javax.inject.Provider;
 
-import pl.chalapuk.muice.Injector;
 import pl.chalapuk.muice.Key;
-import pl.chalapuk.muice.Provider;
 import pl.chalapuk.muice.Scope;
 
 import com.google.common.base.Function;
@@ -69,11 +68,6 @@ public enum Scopes implements Scope {
                 @Override
                 public T get() {
                     return mGetter.apply(unscoped);
-                }
-
-                @Override
-                public void initialize(Injector injector) {
-                    unscoped.initialize(injector);
                 }
             };
         }

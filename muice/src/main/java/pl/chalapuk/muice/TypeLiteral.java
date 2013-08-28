@@ -125,7 +125,7 @@ public final class TypeLiteral<T> {
      * @return type literal representing given type with given type arguments
      */
     public static <T> TypeLiteral<T> get(Class<? super T> rawType, TypeLiteral<?>... args) {
-        return new TypeLiteral<T>(rawType, args);
+        return new TypeLiteral<>(rawType, args);
     }
 
     private TypeLiteral(Class<? super T> rawType, TypeLiteral<?>[] typeArguments) {

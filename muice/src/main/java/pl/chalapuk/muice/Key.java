@@ -63,7 +63,7 @@ public final class Key<T> {
      * @return key representing given type
      */
     public static <T> Key<T> get(Class<T> type) {
-        return new Key<T>(TypeLiteral.get(type), null);
+        return new Key<>(TypeLiteral.get(type), null);
     }
 
     /**
@@ -73,7 +73,7 @@ public final class Key<T> {
      * @return key representing given type
      */
     public static <T> Key<T> get(TypeLiteral<T> typeLiteral) {
-        return new Key<T>(typeLiteral, null);
+        return new Key<>(typeLiteral, null);
     }
 
     /**
@@ -87,7 +87,7 @@ public final class Key<T> {
      */
     public static <T> Key<T> get(Class<T> type, Class<? extends Annotation> qualifier)
             throws IllegalArgumentException {
-        return new Key<T>(TypeLiteral.get(type), qualifier);
+        return new Key<>(TypeLiteral.get(type), qualifier);
     }
 
     /**
@@ -100,7 +100,7 @@ public final class Key<T> {
      *             annotated with {@link Qualifier}
      */
     public static <T> Key<T> get(TypeLiteral<T> typeLiteral, Class<? extends Annotation> qualifier) {
-        return new Key<T>(typeLiteral, qualifier);
+        return new Key<>(typeLiteral, qualifier);
     }
 
     private Key(TypeLiteral<T> typeLiteral, Class<? extends Annotation> qualifier) {

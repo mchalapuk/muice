@@ -263,7 +263,7 @@ public interface Binder {
         /**
          * @see Binder documentation of Guice Binding EDSL
          */
-        ScopingBuilder toProvider(Class<? extends Provider<? extends T>> providerType);
+        ScopingBuilder toProvider(Class<? extends javax.inject.Provider<? extends T>> providerType);
 
         /**
          * @see Binder documentation of Guice Binding EDSL

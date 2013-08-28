@@ -50,5 +50,5 @@ public interface Scope {
      *         provider when an instance of the requested object doesn't already
      *         exist in this scope
      */
-    <T> Provider<? extends T> decorate(Key<T> key, Provider<? extends T> unscoped);
+    <T> javax.inject.Provider<? extends T> decorate(Key<T> key, javax.inject.Provider<? extends T> unscoped);
 }
