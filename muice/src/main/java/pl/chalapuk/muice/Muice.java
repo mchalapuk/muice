@@ -47,7 +47,7 @@ import pl.chalapuk.muice.internal.Scopes;
  * Implementations of these APIs. Connections between them are configured inside
  * BindingModules, which are contained in your Application. Application
  * typically defines your {@code main()} method, that bootstraps the Injector
- * using the {@code Muice} class, as in this example:
+ * using static method of {@code Muice} class, as in this example:
  * 
  * <pre>
  * public static void main(String[] args) {
@@ -63,6 +63,8 @@ import pl.chalapuk.muice.internal.Scopes;
  *     starter.runApplication();
  * }
  * </pre>
+ * 
+ * <h3>Customizations</h3>
  * <p>
  * Muice provides also a possibility to customize injector creation process (to
  * differentiate from Guice behavior) by building an instance of {@link Muice}.
@@ -75,10 +77,11 @@ import pl.chalapuk.muice.internal.Scopes;
  * to instantiate classes. Default implementation uses reflection to invoke
  * constructor.
  * <li>{@link BindingCollector} - provides {@linkplain BindingCollector binding
- * collector} instance for each created injector. Collector aggregates
- * {@link Binding} object during injector configuration. Default implementation
- * simply aggregates bindings and return null if asked for binding that was not
- * configured before.
+ * collector} instance for each created injector. Collector maps {@link Key
+ * binding keys} to {@link Binding} object during injector configuration.
+ * Default implementation aggregates bindings and returns <code>null</code> if
+ * asked for binding that was not mapped. This means that all bindings must be
+ * explicit when using default binding collector.
  * </ol>
  * <p>
  * Besides factories, Muice customization supports:
