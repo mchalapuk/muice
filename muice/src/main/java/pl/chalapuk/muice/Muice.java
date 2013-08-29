@@ -50,22 +50,18 @@ import pl.chalapuk.muice.internal.Scopes;
  * using the {@code Muice} class, as in this example:
  * 
  * <pre>
- * public class FooApplication {
- *     public static void main(String[] args) {
- *         Injector injector = Muice.createInjector(
+ * public static void main(String[] args) {
+ *     Injector injector = Muice.createInjector(
  *             new BindingModuleA(),
  *             new BindingModuleB(),
  *             . . .
  *             new FooApplicationFlagsModule(args)
  *         );
  * 
- *         // Now just bootstrap the application and you're done
- *         FooStarter starter = injector.getInstance(FooStarter.class);
- *         starter.runApplication();
- *     }
+ *     // Now just bootstrap the application and you're done
+ *     FooStarter starter = injector.getInstance(FooStarter.class);
+ *     starter.runApplication();
  * }
- * 
- * 
  * </pre>
  * <p>
  * Muice provides also a possibility to customize injector creation process (to
@@ -94,7 +90,7 @@ import pl.chalapuk.muice.internal.Scopes;
  * binding. By default it is {@link Scopes#NONE}.
  * </ul>
  * <p>
- * Folowing code is a Muice customization example.
+ * Folowing example presents full Muice customization.
  * 
  * <pre>
  * Muice customizedMuice = Muice.newMuice()
