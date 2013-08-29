@@ -74,7 +74,7 @@ import pl.chalapuk.muice.internal.Scopes;
  * <ol>
  * <li>{@link TypeInfoFactory} - provides information about class' default
  * injection points and constructor dependencies. Default implementation uses
- * reflection to build
+ * reflection to build returned data structures.
  * <li>{@link ProducerFactory} - provides {@linkplain Producer producers} used
  * to instantiate classes. Default implementation uses reflection to invoke
  * constructor.
