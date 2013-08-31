@@ -19,22 +19,44 @@ package pl.chalapuk.muice.customization;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import static com.google.common.base.Preconditions.*;
 
+/**
+ * Holds information about default injection point and declared scope for a
+ * class. RawTypeInfo instances are produced by implementations of
+ * {@link TypeInfoFactory}.
+ * <p>
+ * Information held in RawTypeInfo objects typically comes from runtime
+ * reflection analysis, however there is a possibility of implementing custom
+ * {@link TypeInfoFactory} that uses information generated at compile time.
+ * 
+ * @param <T> type represented by raw type info
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class RawTypeInfo<T> {
     private final ConstructorInfo<T> mConstructorInfo;
     private final Class<? extends Annotation> mScopeAnnotation;
 
     public RawTypeInfo(ConstructorInfo<T> constructorInfo,
-            Class<? extends Annotation> scopeAnnotation) {
+            @Nullable Class<? extends Annotation> scopeAnnotation) {
         mConstructorInfo = checkNotNull(constructorInfo);
         mScopeAnnotation = scopeAnnotation;
     }
 
+    /**
+     * @return constructor used to instantiate object in cases when type is
+     *         bound to itself
+     */
     public ConstructorInfo<T> getDefaultInjectionPoint() {
         return mConstructorInfo;
     }
 
+    /**
+     * @return scope annotation found on class declaration
+     */
+    @Nullable
     public Class<? extends Annotation> getScopeAnnotation() {
         return mScopeAnnotation;
     }
