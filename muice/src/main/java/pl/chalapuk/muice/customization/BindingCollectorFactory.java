@@ -16,7 +16,19 @@
 
 package pl.chalapuk.muice.customization;
 
+/**
+ * One of Muice customization points. Provides {@linkplain BindingCollector
+ * binding collector} instance for each created injector.
+ * 
+ * @see MuiceBuilder#withBindingCollectorFactory(BindingCollectorFactory)
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public interface BindingCollectorFactory {
 
+    /**
+     * Creates new instance of binding collector.
+     * 
+     * @return new binding collector instance
+     */
     BindingCollector createCollector();
 }
