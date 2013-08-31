@@ -100,12 +100,24 @@ public class BindingTypeToItselfTest {
     }
 
     @Test(expected = BindingError.class)
-    public void testBindingErrorWhenBoindingInnerClassToItself() {
+    public void testBindingErrorWhenBindingInnerClassToItself() {
         Muice.createInjector(new BindingModule() {
 
             @Override
             public void configure(Binder binder) {
                 binder.bind(Inner.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingSameTypeToItselfTwice() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class);
+                binder.bind(Object.class);
             }
         });
     }
