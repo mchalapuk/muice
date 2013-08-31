@@ -29,6 +29,11 @@ import pl.chalapuk.muice.customization.ConstructorInfo;
 
 import com.google.common.collect.Maps;
 
+/**
+ * Creates binding collectors that checks producer preconditions immediately.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class ExplicitCollectorFactory implements BindingCollectorFactory {
 
     @Override

@@ -27,6 +27,11 @@ import pl.chalapuk.muice.Producer;
 import pl.chalapuk.muice.customization.ConstructorInfo;
 import pl.chalapuk.muice.customization.ProducerFactory;
 
+/**
+ * Creates producers that uses reflection to invoke desired constructor.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class ReflectionProducerFactory implements ProducerFactory {
 
     @Override

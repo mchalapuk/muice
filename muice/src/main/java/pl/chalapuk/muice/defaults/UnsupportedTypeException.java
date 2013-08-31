@@ -18,6 +18,11 @@ package pl.chalapuk.muice.defaults;
 
 import pl.chalapuk.muice.customization.TypeInfoException;
 
+/**
+ * Thrown when unsupported type is encountered at injection point.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 @SuppressWarnings("serial")
 public class UnsupportedTypeException extends TypeInfoException {
 

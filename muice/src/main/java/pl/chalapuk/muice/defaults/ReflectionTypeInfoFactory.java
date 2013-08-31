@@ -34,6 +34,12 @@ import pl.chalapuk.muice.customization.RawTypeInfo;
 import pl.chalapuk.muice.customization.TypeInfoException;
 import pl.chalapuk.muice.customization.TypeInfoFactory;
 
+/**
+ * Uses reflection to find Inject-annotated constructors and to create
+ * {@link Key keys} for constructor parameters.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class ReflectionTypeInfoFactory implements TypeInfoFactory {
 
     @Override

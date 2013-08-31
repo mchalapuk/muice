@@ -18,6 +18,11 @@ package pl.chalapuk.muice.defaults;
 
 import pl.chalapuk.muice.customization.TypeInfoException;
 
+/**
+ * Thrown when default injection point for class can not be found.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 @SuppressWarnings("serial")
 public class InjectionPointException extends TypeInfoException {
 
