@@ -20,19 +20,51 @@ import pl.chalapuk.muice.BindingModule;
 import pl.chalapuk.muice.Muice;
 import pl.chalapuk.muice.Scope;
 
+/**
+ * Builds customized instances of Muice.
+ * <p>
+ * Implementation of this interface provides default instances for customizable
+ * factories, boot modules and default scope. {@code Muice.newMuice().build()}
+ * will create Muice instance with default configuration. Calling any
+ * {@code with...} method is optional.
+ * 
+ * @see Muice#newMuice()
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public interface MuiceBuilder {
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withTypeInfoFactory(TypeInfoFactory factory);
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withBindingCollectorFactory(BindingCollectorFactory factory);
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withProducerFactory(ProducerFactory factory);
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withBootModules(BindingModule... modules);
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withoutBootModules();
 
+    /**
+     * @see Muice
+     */
     MuiceBuilder withDefaultScope(Scope scope);
 
+    /**
+     * @see Muice
+     */
     Muice build();
 }
