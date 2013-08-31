@@ -62,7 +62,9 @@ public interface BindingCollector {
      * Called before creating creating producer for each bound constructor or
      * class bound to itself.
      * <p>
-     * Implementing this method is fully optional.
+     * <b>NOTE:</b> Implementation of this method may check preconditions
+     * immediately or just store passed ConstructorInfo to check preconditions
+     * for all constructors in implementation of {@link #getBindings()} method.
      * 
      * @param info constructor info that will be used to construct producer
      * @throws BindingError if some precondition is not met
