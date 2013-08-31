@@ -18,7 +18,26 @@ package pl.chalapuk.muice.customization;
 
 import pl.chalapuk.muice.Producer;
 
+/**
+ * One of Muice customization points. Used by Muice to create
+ * {@linkplain Producer producers} for each bound constructor and type bound to
+ * itself.
+ * <p>
+ * <b>NOTE:</b> Default implementation creates producers that uses reflection to
+ * invoke desired constructor, which makes it a bottleneck. It is advisable to
+ * provide custom implementation of this interface returns compile-time
+ * generated producers that doesn't use reflection.
+ * 
+ * @see MuiceBuilder#withProducerFactory(ProducerFactory)
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public interface ProducerFactory {
 
+    /**
+     * Creates producer for given constructor info.
+     * 
+     * @param info info representing constructor to be invoked
+     * @return producer capable of creating {@code T}
+     */
     <T> Producer<T> createProducer(ConstructorInfo<T> info);
 }
