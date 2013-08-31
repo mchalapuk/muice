@@ -31,6 +31,9 @@ import pl.chalapuk.muice.customization.BindingCollector;
 import pl.chalapuk.muice.customization.ProducerFactory;
 import pl.chalapuk.muice.customization.TypeInfoFactory;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class BinderImpl implements Binder {
     private final BindingCollector mCollector;
     private final TypeInfoFactory mTypeInfoFactory;

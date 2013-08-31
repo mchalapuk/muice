@@ -23,6 +23,11 @@ import com.google.common.collect.Maps;
 
 import pl.chalapuk.muice.Scope;
 
+/**
+ * Maps scopes to annotations.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class ScopeMapping {
     private final Map<Class<? extends Annotation>, Scope> mMapping = Maps.newHashMap();
 

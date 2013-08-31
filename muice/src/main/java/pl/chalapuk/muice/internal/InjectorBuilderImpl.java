@@ -34,6 +34,9 @@ import pl.chalapuk.muice.TypeLiteral;
 import pl.chalapuk.muice.customization.BindingCollector;
 import pl.chalapuk.muice.customization.InjectorBuilder;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class InjectorBuilderImpl implements InjectorBuilder {
     private final BindingCollector mCollector;
     private final BinderImpl mBinder;

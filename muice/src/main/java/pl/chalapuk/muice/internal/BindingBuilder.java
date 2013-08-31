@@ -42,6 +42,9 @@ import pl.chalapuk.muice.customization.RawTypeInfo;
 import pl.chalapuk.muice.customization.TypeInfoException;
 import pl.chalapuk.muice.customization.TypeInfoFactory;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class BindingBuilder<T> implements AnnotatingBuilder<T> {
     private final BindingCollector mBindingCollector;
     private final ScopeMapping mScopeMapping;
