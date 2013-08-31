@@ -16,6 +16,11 @@
 
 package pl.chalapuk.muice.customization;
 
+/**
+ * Thrown from {@link TypeInfoFactory#getRawTypeInfo(Class)}.
+ * 
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 @SuppressWarnings("serial")
 public class TypeInfoException extends Exception {
 
