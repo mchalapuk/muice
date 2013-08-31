@@ -88,8 +88,6 @@ public class BinderImpl implements Binder {
     public void finishBuilding() {
         if (mCurrentBuilder != null) {
             Binding<?> binding = mCurrentBuilder.build();
-            checkBindingCondition(mCollector.get(binding.getKey()) == null,
-                    "binding for %s defined twice", binding.getKey());
 
             mCollector.add(binding);
             mCurrentBuilder = null;

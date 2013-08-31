@@ -16,10 +16,6 @@
 
 package pl.chalapuk.muice;
 
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.*;
-
 /**
  * A mapping from a key (type and optional annotation) to the strategy for
  * getting instances of the type.
@@ -38,47 +34,11 @@ import static com.google.common.base.Preconditions.*;
  * @author jessewilson@google.com (Jesse Wilson)
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
  */
-public class Binding<T> {
-    private final Key<T> mKey;
-    private final Producer<? extends T> mProducer;
-    private final Scope mScope;
+public interface Binding<T> {
 
-    public Binding(Key<T> key, Producer<? extends T> producer, Scope scope) {
-        mKey = checkNotNull(key);
-        mProducer = checkNotNull(producer);
-        mScope = checkNotNull(scope);
-    }
+    Key<T> getKey();
 
-    public Key<T> getKey() {
-        return mKey;
-    }
+    Producer<? extends T> getTarget();
 
-    public Producer<? extends T> getTarget() {
-        return mProducer;
-    }
-
-    public Scope getScope() {
-        return mScope;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(mKey, mProducer, mScope);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-
-        @SuppressWarnings("unchecked")
-        Binding<T> other = (Binding<T>) obj;
-        return mKey.equals(other.mKey)
-                && mProducer.equals(other.mProducer)
-                && mScope.equals(other.mScope);
-    }
+    Scope getScope();
 }

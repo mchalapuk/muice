@@ -56,6 +56,7 @@ public class InjectorBuilderImpl implements InjectorBuilder {
 
     @Override
     public Injector build() {
+        final Iterable<Binding<?>> bindings = mCollector.getBindings();
         final Map<Key<?>, Provider<?>> scoped = Maps.newHashMap();
 
         Injector injector = new Injector() {
@@ -102,14 +103,14 @@ public class InjectorBuilderImpl implements InjectorBuilder {
 
             @Override
             public Iterable<Binding<?>> getBindings() {
-                return mCollector;
+                return bindings;
             }
         };
 
         mBinder.bind(Injector.class).toInstance(injector);
         mBinder.finishBuilding();
 
-        for (Binding<?> binding : mCollector) {
+        for (Binding<?> binding : bindings) {
             scoped.put(binding.getKey(), applyScope(binding, injector));
         }
 

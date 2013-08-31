@@ -46,7 +46,7 @@ public class MuiceCustomizationTest {
         final URI uri = URI.create("http://example.com/");
 
         BindingCollector collector = new ExplicitCollectorFactory().createCollector();
-        collector.add(new Binding<>(Key.get(Object.class), new Producer<URI>() {
+        collector.add(createBinding(Key.get(Object.class), new Producer<URI>() {
 
             @Override
             public URI newInstance(Injector injector) {
@@ -186,13 +186,14 @@ public class MuiceCustomizationTest {
                 return uri;
             }
         };
-        
+
         Muice muice = Muice.newMuice()
                 .withDefaultScope(new Scope() {
-                    
+
                     @SuppressWarnings("unchecked")
                     @Override
-                    public <T> Provider<? extends T> decorate(Key<T> key, Provider<? extends T> unscoped) {
+                    public <T> Provider<? extends T> decorate(Key<T> key,
+                            Provider<? extends T> unscoped) {
                         return (Provider<? extends T>) provider;
                     }
                 })
@@ -209,6 +210,29 @@ public class MuiceCustomizationTest {
                 .build();
 
         assertSame(uri, injector.getInstance(Object.class));
+    }
+
+    private static <T> Binding<T> createBinding(
+            final Key<T> key,
+            final Producer<? extends T> producer,
+            final Scope scope) {
+        return new Binding<T>() {
+
+            @Override
+            public Key<T> getKey() {
+                return key;
+            }
+
+            @Override
+            public Producer<? extends T> getTarget() {
+                return producer;
+            }
+
+            @Override
+            public Scope getScope() {
+                return scope;
+            }
+        };
     }
 
     private static BindingCollectorFactory factoryOf(final BindingCollector collector) {

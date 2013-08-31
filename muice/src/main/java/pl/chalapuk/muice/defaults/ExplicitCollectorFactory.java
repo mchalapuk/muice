@@ -16,13 +16,16 @@
 
 package pl.chalapuk.muice.defaults;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import pl.chalapuk.muice.Binding;
+import pl.chalapuk.muice.BindingError;
 import pl.chalapuk.muice.Key;
+import pl.chalapuk.muice.Provider;
+import pl.chalapuk.muice.TypeLiteral;
 import pl.chalapuk.muice.customization.BindingCollector;
 import pl.chalapuk.muice.customization.BindingCollectorFactory;
+import pl.chalapuk.muice.customization.ConstructorInfo;
 
 import com.google.common.collect.Maps;
 
@@ -35,6 +38,9 @@ public class ExplicitCollectorFactory implements BindingCollectorFactory {
 
             @Override
             public void add(Binding<?> binding) {
+                if (mBindings.containsKey(binding.getKey())) {
+                    throw new BindingError("binding for %s defined twice" + binding.getKey());
+                }
                 mBindings.put(binding.getKey(), binding);
             }
 
@@ -44,8 +50,25 @@ public class ExplicitCollectorFactory implements BindingCollectorFactory {
             }
 
             @Override
-            public Iterator<Binding<?>> iterator() {
-                return mBindings.values().iterator();
+            public void checkConstructorProducerPreconditions(ConstructorInfo<?> info) {
+                final Key<?>[] paramKeys = info.getConstructorParameterKeys();
+                for (int i = 0; i < paramKeys.length; ++i) {
+                    Key<?> paramKey = paramKeys[i];
+                    if (paramKey.getRawType().equals(Provider.class)) {
+                        TypeLiteral<?> providedType = paramKey.getTypeLiteral().getTypeArgument(0);
+                        paramKey = Key.get(providedType, paramKey.getQualifier());
+                    }
+
+                    if (!mBindings.containsKey(paramKey)) {
+                        throw new BindingError("no binding for " + paramKey
+                                + " required in argument " + i + " of " + info.getConstructor());
+                    }
+                }
+            }
+
+            @Override
+            public Iterable<Binding<?>> getBindings() {
+                return mBindings.values();
             }
         };
     }

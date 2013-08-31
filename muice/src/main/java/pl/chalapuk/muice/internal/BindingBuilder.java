@@ -215,7 +215,23 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
             mScope = mDefaultScope;
         }
 
-        return new Binding<>(mKey, mProducer, mScope);
+        return new Binding<T>() {
+
+            @Override
+            public Key<T> getKey() {
+                return mKey;
+            }
+
+            @Override
+            public Producer<? extends T> getTarget() {
+                return mProducer;
+            }
+
+            @Override
+            public Scope getScope() {
+                return mScope;
+            }
+        };
     }
 
     private Producer<? extends T> producerFromConstructor(
@@ -230,26 +246,9 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                 !isNotStaticInnerClass(rawType),
                 "%s is (not static) inner class; only STATIC inner class can be bound",
                 rawType.getName());
-        checkBingingsForDependenciesConfigured(constructorInfo);
 
+        mBindingCollector.checkConstructorProducerPreconditions(constructorInfo);
         return mProducerFactory.createProducer(constructorInfo);
-    }
-
-    private void checkBingingsForDependenciesConfigured(
-            final ConstructorInfo<? extends T> constructorInfo) {
-        final Key<?>[] paramKeys = constructorInfo.getConstructorParameterKeys();
-        for (int i = 0; i < paramKeys.length; ++i) {
-            Key<?> paramKey = paramKeys[i];
-            if (paramKey.getRawType().equals(Provider.class)) {
-                TypeLiteral<?> providedType = paramKey.getTypeLiteral().getTypeArgument(0);
-                paramKey = Key.get(providedType, paramKey.getQualifier());
-            }
-
-            Binding<?> dependencyBinding = mBindingCollector.get(paramKey);
-            checkBindingCondition(dependencyBinding != null,
-                    "no binding for %s required in argument %s of %s",
-                    paramKey, i, constructorInfo.getConstructor());
-        }
     }
 
     private static void checkBindingCondition(

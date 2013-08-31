@@ -17,11 +17,69 @@
 package pl.chalapuk.muice.customization;
 
 import pl.chalapuk.muice.Binding;
+import pl.chalapuk.muice.BindingError;
 import pl.chalapuk.muice.Key;
 
-public interface BindingCollector extends Iterable<Binding<?>> {
+/**
+ * Used by Muice to collect bindings during injector creation process.
+ * <p>
+ * Instance of binding collector is created for each injector. As bindings are
+ * configured they are added to the collector. After all binding modules for the
+ * injector are processed, collected bindings are fetched from binding collector
+ * with a call to {@link #getBindings()}.
+ * 
+ * @see BindingCollectorFactory
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
+public interface BindingCollector {
 
-    void add(Binding<?> binding);
+    /**
+     * Called after each successfully finished binding configuration.
+     * <p>
+     * Given binding should be stored by collector and returned in future calls
+     * to {@link #get()} and {@link #getBindings()} methods.
+     * 
+     * @param binding binding to be added to collector
+     * @throws BindingError if binding with the same key has been already
+     *             configured
+     */
+    void add(Binding<?> binding) throws BindingError;
 
+    /**
+     * Called when binding for given key is to be used as binding target.
+     * <p>
+     * Whether returned binding should be already configured or not at point of
+     * this method call is implementation-defined. Returned binding may be
+     * incomplete, it will not be used before full injector initialization.
+     * Returning <code>null</code> causes BindingError to be thrown.
+     * 
+     * @param key key for which binding is to be returned
+     * @return binding for given key
+     */
     <T> Binding<T> get(Key<T> key);
+
+    /**
+     * Called before creating creating producer for each bound constructor or
+     * class bound to itself.
+     * <p>
+     * Implementing this method is fully optional.
+     * 
+     * @param info constructor info that will be used to construct producer
+     * @throws BindingError if some precondition is not met
+     */
+    void checkConstructorProducerPreconditions(ConstructorInfo<?> info) throws BindingError;
+
+    /**
+     * Called after all binding configuration for the injector is processed.
+     * <p>
+     * All returned bindings must be complete at this point. If configuration is
+     * incomplete method implementation should throw BindingError.
+     * <p>
+     * After call to this method binding collector is considered to be disposed
+     * - no other calls will be made.
+     * 
+     * @return all configured bindings
+     * @throws BindingError if binding configuration is incomplete
+     */
+    Iterable<Binding<?>> getBindings() throws BindingError;
 }
