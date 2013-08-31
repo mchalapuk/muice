@@ -31,7 +31,7 @@ public class ReflectionProducerFactory implements ProducerFactory {
 
     @Override
     public <T> Producer<T> createProducer(final ConstructorInfo<T> info) {
-        final Key<?>[] paramKeys = info.getConstructorParameterKeys();
+        final Key<?>[] paramKeys = info.getParameterKeys();
 
         return new Producer<T>() {
 

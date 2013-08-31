@@ -25,6 +25,17 @@ import com.google.common.base.Objects;
 
 import pl.chalapuk.muice.Key;
 
+/**
+ * Holds information about constructor dependencies. Instances of this class are
+ * produced by implementations of {@link TypeInfoFactory}.
+ * <p>
+ * Information held in ConstructorInfo objects typically comes from runtime
+ * reflection analysis, however there is a possibility of implementing custom
+ * {@link TypeInfoFactory} that uses information generated at compile time.
+ * 
+ * @param <T> type instantiated by the constructor
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class ConstructorInfo<T> {
     private final Constructor<? super T> mConstructor;
     private final Key<?>[] mParameterKeys;
@@ -34,11 +45,18 @@ public class ConstructorInfo<T> {
         mParameterKeys = checkNotNull(parameterKeys);
     }
 
+    /**
+     * @return constructor instance that should be used to instantiate {@code T}
+     */
     public Constructor<? super T> getConstructor() {
         return mConstructor;
     }
 
-    public Key<?>[] getConstructorParameterKeys() {
+    /**
+     * @return array of {@link Key keys} that represents constructor parameters
+     *         (order is relevant)
+     */
+    public Key<?>[] getParameterKeys() {
         return mParameterKeys;
     }
 
