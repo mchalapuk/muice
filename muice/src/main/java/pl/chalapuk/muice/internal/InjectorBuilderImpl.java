@@ -16,6 +16,8 @@
 
 package pl.chalapuk.muice.internal;
 
+import static com.google.common.base.Preconditions.*;
+
 import java.util.Arrays;
 import java.util.Map;
 
@@ -36,18 +38,24 @@ public class InjectorBuilderImpl implements InjectorBuilder {
     private final BindingCollector mCollector;
     private final BinderImpl mBinder;
 
+    private Injector mInjector = null;
+
     public InjectorBuilderImpl(BindingCollector collector, BinderImpl binder) {
         mCollector = collector;
         mBinder = binder;
     }
 
     @Override
-    public InjectorBuilderImpl withModules(BindingModule... modules) {
+    public InjectorBuilderImpl withModules(BindingModule... modules)
+            throws IllegalStateException, BindingError {
         return withModules(Arrays.asList(modules));
     }
 
     @Override
-    public InjectorBuilderImpl withModules(Iterable<BindingModule> modules) {
+    public InjectorBuilderImpl withModules(Iterable<BindingModule> modules)
+            throws IllegalStateException, BindingError {
+        checkState(mInjector == null, "injector already built");
+
         for (BindingModule module : modules) {
             module.configure(mBinder);
         }
@@ -55,11 +63,13 @@ public class InjectorBuilderImpl implements InjectorBuilder {
     }
 
     @Override
-    public Injector build() {
+    public Injector build() throws IllegalStateException {
+        checkState(mInjector == null, "injector already built");
+        
         final Iterable<Binding<?>> bindings = mCollector.getBindings();
         final Map<Key<?>, Provider<?>> scoped = Maps.newHashMap();
 
-        Injector injector = new Injector() {
+        mInjector = new Injector() {
 
             @Override
             public <T> T getInstance(Key<T> key) {
@@ -107,14 +117,14 @@ public class InjectorBuilderImpl implements InjectorBuilder {
             }
         };
 
-        mBinder.bind(Injector.class).toInstance(injector);
+        mBinder.bind(Injector.class).toInstance(mInjector);
         mBinder.finishBuilding();
-
+        
         for (Binding<?> binding : bindings) {
-            scoped.put(binding.getKey(), applyScope(binding, injector));
+            scoped.put(binding.getKey(), applyScope(binding, mInjector));
         }
 
-        return injector;
+        return mInjector;
     }
 
     private static <T> Provider<? extends T> applyScope(
