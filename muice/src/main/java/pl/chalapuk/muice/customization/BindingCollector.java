@@ -77,8 +77,8 @@ public interface BindingCollector {
      * All returned bindings must be complete at this point. If configuration is
      * incomplete method implementation should throw BindingError.
      * <p>
-     * After call to this method binding collector is considered to be disposed
-     * - no other calls will be made.
+     * After call to this method binding collector will be disposed - no other
+     * calls will be made.
      * 
      * @return all configured bindings
      * @throws BindingError if binding configuration is incomplete
