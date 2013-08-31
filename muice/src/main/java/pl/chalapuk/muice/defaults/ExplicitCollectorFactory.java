@@ -50,7 +50,7 @@ public class ExplicitCollectorFactory implements BindingCollectorFactory {
             }
 
             @Override
-            public void checkConstructorProducerPreconditions(ConstructorInfo<?> info) {
+            public void checkProducerPreconditions(ConstructorInfo<?> info) {
                 final Key<?>[] paramKeys = info.getConstructorParameterKeys();
                 for (int i = 0; i < paramKeys.length; ++i) {
                     Key<?> paramKey = paramKeys[i];

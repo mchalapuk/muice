@@ -247,7 +247,7 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                 "%s is (not static) inner class; only STATIC inner class can be bound",
                 rawType.getName());
 
-        mBindingCollector.checkConstructorProducerPreconditions(constructorInfo);
+        mBindingCollector.checkProducerPreconditions(constructorInfo);
         return mProducerFactory.createProducer(constructorInfo);
     }
 

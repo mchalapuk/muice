@@ -67,7 +67,7 @@ public interface BindingCollector {
      * @param info constructor info that will be used to construct producer
      * @throws BindingError if some precondition is not met
      */
-    void checkConstructorProducerPreconditions(ConstructorInfo<?> info) throws BindingError;
+    void checkProducerPreconditions(ConstructorInfo<?> info) throws BindingError;
 
     /**
      * Called after all binding configuration for the injector is processed.
