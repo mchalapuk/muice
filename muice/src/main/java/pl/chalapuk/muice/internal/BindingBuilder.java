@@ -170,6 +170,7 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
     @Override
     public ScopingBuilder toConstructor(Constructor<? extends T> constructor) {
         checkNotNull(constructor, "constructor");
+        constructor.setAccessible(true);
 
         mProducer = producerFromConstructor(
                 constructor.getDeclaringClass(),
