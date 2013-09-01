@@ -18,6 +18,8 @@ package pl.chalapuk.muice;
 
 import static org.junit.Assert.*;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 
 public class BindingTypeToItselfTest {
@@ -36,6 +38,51 @@ public class BindingTypeToItselfTest {
 
     static class Generic<T> {
         // empty
+    }
+
+    static class ExplicitConstructor {
+        public ExplicitConstructor() {
+            // empty
+        }
+    }
+
+    static class InjectAnnotated {
+        @Inject
+        public InjectAnnotated() {
+            // empty
+        }
+    }
+
+    static class MultipleConstructors {
+        @Inject
+        public MultipleConstructors() {
+            // empty
+        }
+
+        @SuppressWarnings("unused")
+        public MultipleConstructors(String unused) {
+            // empty
+        }
+    }
+
+    static class MultipleInjectAnnotated {
+        @Inject
+        public MultipleInjectAnnotated() {
+            // empty
+        }
+
+        @Inject
+        @SuppressWarnings("unused")
+        public MultipleInjectAnnotated(String unused) {
+            // empty
+        }
+    }
+
+    static class NotInjectAnnotated {
+        @SuppressWarnings("unused")
+        public NotInjectAnnotated(String unused) {
+            // empty
+        }
     }
 
     @Test
@@ -77,6 +124,45 @@ public class BindingTypeToItselfTest {
         assertNotNull(injector.getInstance(TypeLiteral.get(Generic.class, Object.class)));
     }
 
+    @Test
+    public void testBindingClassWithExplicitNoArgContructorToItselt() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(ExplicitConstructor.class);
+            }
+        });
+
+        assertNotNull(injector.getInstance(ExplicitConstructor.class));
+    }
+
+    @Test
+    public void testBindingClassWithInjectAnnotatedNoArgContructorToItselt() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(InjectAnnotated.class);
+            }
+        });
+
+        assertNotNull(injector.getInstance(InjectAnnotated.class));
+    }
+
+    @Test
+    public void testBindingClassWithMultipleContructorsToItselt() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(MultipleConstructors.class);
+            }
+        });
+
+        assertNotNull(injector.getInstance(MultipleConstructors.class));
+    }
+
     @Test(expected = BindingError.class)
     public void testBindingErrorWhenBindingInterfaceToItself() {
         Muice.createInjector(new BindingModule() {
@@ -111,13 +197,35 @@ public class BindingTypeToItselfTest {
     }
 
     @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingClassWithMultipleInjectAnnotatedConstructorsToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(MultipleInjectAnnotated.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingClassWithNoAnnotatedConstructorToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(NotInjectAnnotated.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
     public void testBindingErrorWhenBindingSameTypeToItselfTwice() {
         Muice.createInjector(new BindingModule() {
 
             @Override
             public void configure(Binder binder) {
                 binder.bind(Object.class);
-                binder.bind(Object.class);
+                binder.bind(TypeLiteral.get(Object.class));
             }
         });
     }
