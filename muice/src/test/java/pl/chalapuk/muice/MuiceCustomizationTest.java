@@ -17,6 +17,7 @@
 package pl.chalapuk.muice;
 
 import static org.junit.Assert.*;
+import static pl.chalapuk.muice.TestedTypes.*;
 
 import java.lang.reflect.Constructor;
 import java.net.URI;
@@ -36,10 +37,6 @@ import pl.chalapuk.muice.defaults.ExplicitCollectorFactory;
 import pl.chalapuk.muice.internal.Scopes;
 
 public class MuiceCustomizationTest {
-
-    static class WithDefaultConstructor {
-        // empty
-    }
 
     @Test
     public void testInjectorUsesCustomBindingCollectorWhenInstantiatingObject() {

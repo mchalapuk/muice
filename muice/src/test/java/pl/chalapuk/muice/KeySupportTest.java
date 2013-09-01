@@ -17,31 +17,11 @@
 package pl.chalapuk.muice;
 
 import static org.junit.Assert.*;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import javax.inject.Qualifier;
+import static pl.chalapuk.muice.TestedTypes.*;
 
 import org.junit.Test;
 
 public class KeySupportTest {
-
-    @Qualifier
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface QualifierAnnotationA {
-        // marker
-    }
-
-    @Qualifier
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface QualifierAnnotationB {
-        // marker
-    }
-
-    static class Generic<T> {
-        // empty
-    }
 
     @Test
     public void testClassTypeLiteralAndKeyRefersToTheSameBinding() {

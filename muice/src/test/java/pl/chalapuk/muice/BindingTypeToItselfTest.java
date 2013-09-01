@@ -17,101 +17,16 @@
 package pl.chalapuk.muice;
 
 import static org.junit.Assert.*;
-
-import javax.inject.Inject;
+import static pl.chalapuk.muice.TestedTypes.*;
 
 import org.junit.Test;
 
+import pl.chalapuk.muice.TestedTypes.Inner;
+
 public class BindingTypeToItselfTest {
-
-    interface Interface {
-        // marker
-    }
-
-    static abstract class Abstract {
-        // empty
-    }
-
-    class Inner {
-        // empty
-    }
-
-    static class Generic<T> {
-        // empty
-    }
-
-    static class ExplicitConstructor {
-        public ExplicitConstructor() {
-            // empty
-        }
-    }
-
-    static class InjectAnnotated {
-        @Inject
-        public InjectAnnotated() {
-            // empty
-        }
-    }
-
-    static class MultipleConstructors {
-        @Inject
-        public MultipleConstructors() {
-            // empty
-        }
-
-        @SuppressWarnings("unused")
-        public MultipleConstructors(String unused) {
-            // empty
-        }
-    }
-
-    static class MultipleInjectAnnotated {
-        @Inject
-        public MultipleInjectAnnotated() {
-            // empty
-        }
-
-        @Inject
-        @SuppressWarnings("unused")
-        public MultipleInjectAnnotated(String unused) {
-            // empty
-        }
-    }
-
-    static class NotInjectAnnotated {
-        @SuppressWarnings("unused")
-        public NotInjectAnnotated(String unused) {
-            // empty
-        }
-    }
-
-    static class PrivateConstrutorInPackageScopedClass {
-        private PrivateConstrutorInPackageScopedClass() {
-            // empty
-        }
-    }
 
     private static class PrivateConstrutorInPrivateClass {
         private PrivateConstrutorInPrivateClass() {
-            // empty
-        }
-    }
-
-    protected static class PrivateConstrutorInProtectedClass {
-        private PrivateConstrutorInProtectedClass() {
-            // empty
-        }
-    }
-
-    public static class PrivateConstrutorInPublicClass {
-        private PrivateConstrutorInPublicClass() {
-            // empty
-        }
-    }
-
-    public static class PrivateInjectAnnotatedConstrutorInPublicClass {
-        @Inject
-        private PrivateInjectAnnotatedConstrutorInPublicClass() {
             // empty
         }
     }
@@ -161,11 +76,11 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(ExplicitConstructor.class);
+                binder.bind(WithExplicitConstructor.class);
             }
         });
 
-        assertNotNull(injector.getInstance(ExplicitConstructor.class));
+        assertNotNull(injector.getInstance(WithExplicitConstructor.class));
     }
 
     @Test
@@ -174,11 +89,11 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(InjectAnnotated.class);
+                binder.bind(WithInjectAnnotatedConstructor.class);
             }
         });
 
-        assertNotNull(injector.getInstance(InjectAnnotated.class));
+        assertNotNull(injector.getInstance(WithInjectAnnotatedConstructor.class));
     }
 
     @Test
@@ -187,11 +102,11 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(MultipleConstructors.class);
+                binder.bind(WithMultipleConstructors.class);
             }
         });
 
-        assertNotNull(injector.getInstance(MultipleConstructors.class));
+        assertNotNull(injector.getInstance(WithMultipleConstructors.class));
     }
 
     @Test
@@ -213,11 +128,11 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(PrivateInjectAnnotatedConstrutorInPublicClass.class);
+                binder.bind(PublicWithPrivateInjectAnnotatedConstrutor.class);
             }
         });
 
-        assertNotNull(injector.getInstance(PrivateInjectAnnotatedConstrutorInPublicClass.class));
+        assertNotNull(injector.getInstance(PublicWithPrivateInjectAnnotatedConstrutor.class));
     }
 
     @Test(expected = BindingError.class)
@@ -259,7 +174,7 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(MultipleInjectAnnotated.class);
+                binder.bind(WithMultipleInjectAnnotatedConstructors.class);
             }
         });
     }
@@ -270,7 +185,7 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(NotInjectAnnotated.class);
+                binder.bind(WithNotInjectAnnotatedConstructor.class);
             }
         });
     }
@@ -281,7 +196,7 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(PrivateConstrutorInPackageScopedClass.class);
+                binder.bind(PackageScopedWithPrivateConstrutor.class);
             }
         });
     }
@@ -292,7 +207,7 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(PrivateConstrutorInProtectedClass.class);
+                binder.bind(ProtectedWithPrivateConstrutor.class);
             }
         });
     }
@@ -303,7 +218,7 @@ public class BindingTypeToItselfTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(PrivateConstrutorInPublicClass.class);
+                binder.bind(PublicWithPrivateConstrutor.class);
             }
         });
     }
