@@ -50,7 +50,8 @@ public class ReflectionTypeInfoFactory implements TypeInfoFactory {
 
     @Override
     public <T> ConstructorInfo<T> getConstructorInfo(final Constructor<T> constructor) {
-        return new ConstructorInfo<>(constructor, analyzeParameterKeys(constructor));
+        return new ConstructorInfo<>(constructor, analyzeParameterKeys(constructor),
+                constructor.getAnnotation(Inject.class) != null);
     }
 
     @SuppressWarnings("unchecked")

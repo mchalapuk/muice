@@ -250,7 +250,7 @@ public class MuiceCustomizationTest {
             Constructor<Object> declaredConstructor =
                     (Constructor<Object>) type.getDeclaredConstructor();
             declaredConstructor.setAccessible(true);
-            return new ConstructorInfo<>(declaredConstructor, new Key<?>[0]);
+            return new ConstructorInfo<>(declaredConstructor, new Key<?>[0], true);
         } catch (NoSuchMethodException | SecurityException e) {
             throw new RuntimeException(e);
         }

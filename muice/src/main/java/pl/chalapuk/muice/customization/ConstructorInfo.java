@@ -39,10 +39,13 @@ import pl.chalapuk.muice.Key;
 public class ConstructorInfo<T> {
     private final Constructor<? super T> mConstructor;
     private final Key<?>[] mParameterKeys;
+    private final boolean mInjectAnnotated;
 
-    public ConstructorInfo(Constructor<? super T> constructor, Key<?>[] parameterKeys) {
+    public ConstructorInfo(Constructor<? super T> constructor,
+            Key<?>[] parameterKeys, boolean injectAnnotated) {
         mConstructor = checkNotNull(constructor);
         mParameterKeys = checkNotNull(parameterKeys);
+        mInjectAnnotated = injectAnnotated;
     }
 
     /**
@@ -58,6 +61,10 @@ public class ConstructorInfo<T> {
      */
     public Key<?>[] getParameterKeys() {
         return mParameterKeys;
+    }
+
+    public boolean isInjectAnnotated() {
+        return mInjectAnnotated;
     }
 
     @Override

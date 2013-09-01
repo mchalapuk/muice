@@ -249,6 +249,11 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                 !isNotStaticInnerClass(rawType),
                 "%s is (not static) inner class; only STATIC inner class can be bound",
                 rawType.getName());
+        checkBindingCondition(
+                constructorInfo.isInjectAnnotated()
+                        || !isPrivateConstructorInNotPrivateClass(constructorInfo),
+                "%s is private but %s is not; add @Inject annotation if you want to use this constructor",
+                constructorInfo.getConstructor().toString(), rawType.getName());
 
         mBindingCollector.checkProducerPreconditions(constructorInfo);
         return mProducerFactory.createProducer(constructorInfo);
@@ -267,5 +272,11 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
 
     private static boolean isNotStaticInnerClass(Class<?> type) {
         return type.getEnclosingClass() != null && !Modifier.isStatic(type.getModifiers());
+    }
+
+    private static boolean isPrivateConstructorInNotPrivateClass(ConstructorInfo<?> info) {
+        Constructor<?> constructor = info.getConstructor();
+        return Modifier.isPrivate(constructor.getModifiers())
+                && !Modifier.isPrivate(constructor.getDeclaringClass().getModifiers());
     }
 }

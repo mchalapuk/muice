@@ -85,6 +85,37 @@ public class BindingTypeToItselfTest {
         }
     }
 
+    static class PrivateConstrutorInPackageScopedClass {
+        private PrivateConstrutorInPackageScopedClass() {
+            // empty
+        }
+    }
+
+    private static class PrivateConstrutorInPrivateClass {
+        private PrivateConstrutorInPrivateClass() {
+            // empty
+        }
+    }
+
+    protected static class PrivateConstrutorInProtectedClass {
+        private PrivateConstrutorInProtectedClass() {
+            // empty
+        }
+    }
+
+    public static class PrivateConstrutorInPublicClass {
+        private PrivateConstrutorInPublicClass() {
+            // empty
+        }
+    }
+
+    public static class PrivateInjectAnnotatedConstrutorInPublicClass {
+        @Inject
+        private PrivateInjectAnnotatedConstrutorInPublicClass() {
+            // empty
+        }
+    }
+
     @Test
     public void testBindingObjectClassToItself() {
         Injector injector = Muice.createInjector(new BindingModule() {
@@ -163,6 +194,32 @@ public class BindingTypeToItselfTest {
         assertNotNull(injector.getInstance(MultipleConstructors.class));
     }
 
+    @Test
+    public void testBindingPrivateClassWithPrivateConstructorToItself() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(PrivateConstrutorInPrivateClass.class);
+            }
+        });
+
+        assertNotNull(injector.getInstance(PrivateConstrutorInPrivateClass.class));
+    }
+
+    @Test
+    public void testBindingPublicClassWithPrivateInjectAnnotatedConstructorToItself() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(PrivateInjectAnnotatedConstrutorInPublicClass.class);
+            }
+        });
+
+        assertNotNull(injector.getInstance(PrivateInjectAnnotatedConstrutorInPublicClass.class));
+    }
+
     @Test(expected = BindingError.class)
     public void testBindingErrorWhenBindingInterfaceToItself() {
         Muice.createInjector(new BindingModule() {
@@ -214,6 +271,39 @@ public class BindingTypeToItselfTest {
             @Override
             public void configure(Binder binder) {
                 binder.bind(NotInjectAnnotated.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingPackageScopedClassWithPrivateConstructorToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(PrivateConstrutorInPackageScopedClass.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingProtectedClassWithPrivateConstructorToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(PrivateConstrutorInProtectedClass.class);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingPublicClassWithPrivateConstructorToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(PrivateConstrutorInPublicClass.class);
             }
         });
     }
