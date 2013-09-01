@@ -19,6 +19,8 @@ package pl.chalapuk.muice;
 import static org.junit.Assert.*;
 import static pl.chalapuk.muice.TestedTypes.*;
 
+import java.lang.reflect.Constructor;
+
 import org.junit.Test;
 
 import pl.chalapuk.muice.TestedTypes.Inner;
@@ -237,6 +239,36 @@ public class ConstructorBindingTest {
                 } catch (NoSuchMethodException | SecurityException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingClassToConstructorFromIncompatibleType() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                try {
+                    binder.bind(WithDefaultConstructor.class)
+                            .toConstructor(
+                                    (Constructor<WithDefaultConstructor>) (Constructor<?>)
+                                    Object.class.getDeclaredConstructor());
+                } catch (NoSuchMethodException | SecurityException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testBindingErrorWhenBindingClassToNullConstructor() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toConstructor(null);
             }
         });
     }

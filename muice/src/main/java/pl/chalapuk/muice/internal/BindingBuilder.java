@@ -172,10 +172,13 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
         checkNotNull(constructor, "constructor");
         constructor.setAccessible(true);
 
-        mProducer = producerFromConstructor(
-                constructor.getDeclaringClass(),
-                mTypeInfoFactory.getConstructorInfo(constructor)
-                );
+        Class<? extends T> declaringClass = constructor.getDeclaringClass();
+        checkBindingCondition(mKey.getRawType().isAssignableFrom(declaringClass),
+                "declaring class of passed constructor (%s) is not compatible with %s",
+                declaringClass, mKey);
+
+        mProducer = producerFromConstructor(declaringClass,
+                mTypeInfoFactory.getConstructorInfo(constructor));
         return this;
     }
 
