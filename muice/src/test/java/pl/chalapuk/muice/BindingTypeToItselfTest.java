@@ -234,4 +234,37 @@ public class BindingTypeToItselfTest {
             }
         });
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerWhenBindingNullTypeToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind((Class<?>) null);
+            }
+        });
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerWhenBindingNullTypeLiteralToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind((TypeLiteral<?>) null);
+            }
+        });
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerWhenBindingNullKeyToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind((Key<?>) null);
+            }
+        });
+    }
 }
