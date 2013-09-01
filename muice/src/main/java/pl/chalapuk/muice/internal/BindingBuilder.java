@@ -26,6 +26,7 @@ import javax.inject.Named;
 
 import pl.chalapuk.muice.Binding;
 import pl.chalapuk.muice.BindingError;
+import pl.chalapuk.muice.InjectionError;
 import pl.chalapuk.muice.Injector;
 import pl.chalapuk.muice.Key;
 import pl.chalapuk.muice.Producer;
@@ -183,8 +184,20 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
     }
 
     @Override
-    public ScopingBuilder toProducer(Producer<? extends T> producer) {
-        mProducer = producer;
+    public ScopingBuilder toProducer(final Producer<? extends T> producer) {
+        checkNotNull(producer, "producer");
+
+        mProducer = new Producer<T>() {
+
+            @Override
+            public T newInstance(Injector injector) {
+                try {
+                    return (T) mKey.getRawType().cast(producer.newInstance(injector));
+                } catch (ClassCastException e) {
+                    throw new InjectionError("custom producer returned object of wrong type", e);
+                }
+            }
+        };
         return this;
     }
 
