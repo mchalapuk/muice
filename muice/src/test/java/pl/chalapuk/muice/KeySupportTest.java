@@ -21,6 +21,9 @@ import static pl.chalapuk.muice.TestedTypes.*;
 
 import org.junit.Test;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class KeySupportTest {
 
     @Test

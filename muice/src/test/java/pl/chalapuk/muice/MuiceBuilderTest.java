@@ -34,6 +34,9 @@ import pl.chalapuk.muice.customization.RawTypeInfo;
 import pl.chalapuk.muice.customization.TypeInfoException;
 import pl.chalapuk.muice.customization.TypeInfoFactory;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class MuiceBuilderTest {
     private static BindingCollectorFactory sFakeBindingCollectorFactory;
     private static TypeInfoFactory sFakeTypeInfoFactory;

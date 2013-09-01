@@ -26,6 +26,9 @@ import com.google.common.collect.Iterables;
 
 import pl.chalapuk.muice.internal.Scopes;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class DefaultImplementationTest {
 
     @Test

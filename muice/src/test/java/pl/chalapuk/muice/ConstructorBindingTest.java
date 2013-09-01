@@ -30,12 +30,6 @@ import pl.chalapuk.muice.TestedTypes.Inner;
  */
 public class ConstructorBindingTest {
 
-    private static class PrivateConstrutorInPrivateClass {
-        private PrivateConstrutorInPrivateClass() {
-            // empty
-        }
-    }
-
     @Test
     public void testBindingClassToDefaultConstructor() {
         Injector injector = Muice.createInjector(new BindingModule() {
@@ -247,6 +241,7 @@ public class ConstructorBindingTest {
     public void testBindingErrorWhenBindingClassToConstructorFromIncompatibleType() {
         Muice.createInjector(new BindingModule() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public void configure(Binder binder) {
                 try {
@@ -260,7 +255,7 @@ public class ConstructorBindingTest {
             }
         });
     }
-    
+
     @Test(expected = NullPointerException.class)
     public void testBindingErrorWhenBindingClassToNullConstructor() {
         Muice.createInjector(new BindingModule() {

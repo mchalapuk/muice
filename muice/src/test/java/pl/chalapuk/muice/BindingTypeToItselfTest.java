@@ -23,6 +23,9 @@ import org.junit.Test;
 
 import pl.chalapuk.muice.TestedTypes.Inner;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class BindingTypeToItselfTest {
 
     private static class PrivateConstrutorInPrivateClass {

@@ -36,6 +36,9 @@ import pl.chalapuk.muice.customization.TypeInfoFactory;
 import pl.chalapuk.muice.defaults.ExplicitCollectorFactory;
 import pl.chalapuk.muice.internal.Scopes;
 
+/**
+ * @author maciej@chalapuk.pl (Maciej Chałapuk)
+ */
 public class MuiceCustomizationTest {
 
     @Test
