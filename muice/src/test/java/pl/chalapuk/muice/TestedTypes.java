@@ -128,4 +128,33 @@ public class TestedTypes {
     @interface QualifierAnnotationB {
         // marker
     }
+    
+    public static class ObjectProvider implements javax.inject.Provider<Object> {
+
+        @Override
+        public Object get() {
+            return new Object();
+        }
+    }
+    
+    static class ThrowingFromGetProvider implements javax.inject.Provider<Object> {
+
+        @Override
+        public Object get() {
+            throw new RuntimeException();
+        }
+    }
+    
+    static class ThrowingFromConstructorProvider implements javax.inject.Provider<Object> {
+
+        public ThrowingFromConstructorProvider() {
+            throw new RuntimeException();
+        }
+        
+        @Override
+        public Object get() {
+            return null;
+        }
+    }
+
 }

@@ -125,14 +125,19 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                 "no binding for %s, please bind the provider type to itself first",
                 targetKey);
 
-        mProducer = new Producer<T>() {
+        return toProvider(new Provider<T>() {
+            private javax.inject.Provider<? extends T> mProvider;
 
             @Override
-            public T newInstance(Injector injector) {
-                return injector.getInstance(targetKey).get();
+            public void initialize(Injector injector) {
+                mProvider = injector.getInstance(targetKey);
             }
-        };
-        return this;
+
+            @Override
+            public T get() {
+                return mProvider.get();
+            }
+        });
     }
 
     @Override
