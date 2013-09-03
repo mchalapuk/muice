@@ -66,7 +66,7 @@ public class BindindToJavaxInjectProviderTest {
         verify(mockProvider).get();
     }
 
-    @Test(expected = InjectionError.class)
+    @Test
     public void testInjectionErrorWhenObjectOfIncompatibleTypeProvided() {
 
         Injector injector = Muice.createInjector(new BindingModule() {
@@ -87,7 +87,38 @@ public class BindindToJavaxInjectProviderTest {
             }
         });
 
-        injector.getInstance(Generic.class);
+        try {
+            injector.getInstance(Generic.class);
+            fail("expected "+ InjectionError.class);
+        } catch (InjectionError e) {
+            assertEquals(ClassCastException.class, e.getCause().getClass());
+        }
+    }
+
+    @Test
+    public void testInjectionErrorWhenProviderGetThrowsRuntimeException() {
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toProvider(new javax.inject.Provider<Object>() {
+
+                            @Override
+                            public Object get() {
+                                throw new RuntimeException();
+                            }
+                        });
+            }
+        });
+
+        try {
+            injector.getInstance(Object.class);
+            fail("expected "+ InjectionError.class);
+        } catch (InjectionError e) {
+            assertEquals(RuntimeException.class, e.getCause().getClass());
+        }
     }
 
     @Test(expected = NullPointerException.class)

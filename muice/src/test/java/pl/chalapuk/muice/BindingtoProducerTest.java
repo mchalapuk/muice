@@ -86,7 +86,33 @@ public class BindingtoProducerTest {
         assertEquals(injector.getBindings(), captor.getValue().getBindings());
     }
 
-    @Test(expected = InjectionError.class)
+    @Test
+    public void testInjectionErrorWhenProviderGetThrowsRuntimeException() {
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toProducer(new Producer<Object>() {
+
+                            @Override
+                            public Object newInstance(Injector unused) {
+                                throw new RuntimeException();
+                            }
+                        });
+            }
+        });
+
+        try {
+            injector.getInstance(Object.class);
+            fail("expected "+ InjectionError.class);
+        } catch (InjectionError e) {
+            assertEquals(RuntimeException.class, e.getCause().getClass());
+        }
+    }
+
+    @Test
     public void testInjectionErrorWhenObjectOfIncompatibleTypeProduced() {
 
         Injector injector = Muice.createInjector(new BindingModule() {
@@ -106,7 +132,12 @@ public class BindingtoProducerTest {
             }
         });
 
-        injector.getInstance(Generic.class);
+        try {
+            injector.getInstance(Generic.class);
+            fail("expected "+ InjectionError.class);
+        } catch (InjectionError e) {
+            assertEquals(ClassCastException.class, e.getCause().getClass());
+        }
     }
 
     @Test(expected = NullPointerException.class)

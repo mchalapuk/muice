@@ -147,6 +147,8 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                     return (T) mKey.getRawType().cast(provider.get());
                 } catch (ClassCastException e) {
                     throw new InjectionError("custom provider returned object of wrong type", e);
+                } catch (Throwable t) {
+                    throw new InjectionError("error in custom provider", t);
                 }
             }
         };
@@ -162,11 +164,25 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
 
             @Override
             public T newInstance(Injector injector) {
-                if (!mInitialized) {
-                    provider.initialize(injector);
-                    mInitialized = true;
+                maybeInitialize(injector);
+                try {
+                    return (T) mKey.getRawType().cast(provider.get());
+                } catch (ClassCastException e) {
+                    throw new InjectionError("custom provider returned object of wrong type", e);
+                } catch (Throwable t) {
+                    throw new InjectionError("error in custom provider", t);
                 }
-                return provider.get();
+            }
+
+            private void maybeInitialize(Injector injector) {
+                if (!mInitialized) {
+                    try {
+                        provider.initialize(injector);
+                        mInitialized = true;
+                    } catch (Throwable t) {
+                        throw new InjectionError("error in initialization of custom provider", t);
+                    }
+                }
             }
         };
         return this;
@@ -199,6 +215,8 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                     return (T) mKey.getRawType().cast(producer.newInstance(injector));
                 } catch (ClassCastException e) {
                     throw new InjectionError("custom producer returned object of wrong type", e);
+                } catch (Throwable t) {
+                    throw new InjectionError("error in custom producer", t);
                 }
             }
         };
