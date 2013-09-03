@@ -20,14 +20,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
 import pl.chalapuk.muice.TestedTypes.Generic;
 
 /**
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
  */
-public class BindingtoProducerTest {
+public class BindindToJavaxInjectProviderTest {
 
     @Test
     public void testBindingObjectClassToProducer() {
@@ -37,10 +36,10 @@ public class BindingtoProducerTest {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(Object.class).toProducer(new Producer<Object>() {
+                binder.bind(Object.class).toProvider(new javax.inject.Provider<Object>() {
 
                     @Override
-                    public Object newInstance(Injector unused) {
+                    public Object get() {
                         return instance;
                     }
                 });
@@ -51,58 +50,40 @@ public class BindingtoProducerTest {
     }
 
     @Test
-    public void testNotNullInjectorIsPassedToProducer() {
-        final Producer<Object> mockProducer = mock(Producer.class);
+    public void testProviderGetCalledOnBoundProviderWhenCallingGetOnScopedProvider() {
+        final javax.inject.Provider<Object> mockProvider = mock(javax.inject.Provider.class);
 
         Injector injector = Muice.createInjector(new BindingModule() {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(Object.class).toProducer(mockProducer);
+                binder.bind(Object.class).toProvider(mockProvider);
             }
         });
 
-        injector.getInstance(Object.class);
+        injector.getProvider(Object.class).get();
 
-        verify(mockProducer).newInstance(notNull(Injector.class));
-    }
-
-    @Test
-    public void testInjectorPassedToProducerContainTheSameBindingAsCreatedInjector() {
-        final Producer<Object> mockProducer = mock(Producer.class);
-
-        Injector injector = Muice.createInjector(new BindingModule() {
-
-            @Override
-            public void configure(Binder binder) {
-                binder.bind(Object.class).toProducer(mockProducer);
-            }
-        });
-
-        injector.getInstance(Object.class);
-
-        ArgumentCaptor<Injector> captor = ArgumentCaptor.forClass(Injector.class);
-        verify(mockProducer).newInstance(captor.capture());
-        assertEquals(injector.getBindings(), captor.getValue().getBindings());
+        verify(mockProvider).get();
     }
 
     @Test(expected = InjectionError.class)
-    public void testInjectionErrorWhenObjectOfIncompatibleTypeProduced() {
+    public void testInjectionErrorWhenObjectOfIncompatibleTypeProvided() {
 
         Injector injector = Muice.createInjector(new BindingModule() {
             @SuppressWarnings({
-                    "unchecked", "cast", "rawtypes", "hiding"
+                    "unchecked", "cast", "rawtypes"
             })
             @Override
             public void configure(Binder binder) {
                 binder.bind(Generic.class)
-                        .toProducer((Producer<Generic<?>>) (Producer) new Producer<Object>() {
+                        .toProvider(
+                                (javax.inject.Provider<Generic<?>>) (javax.inject.Provider) new javax.inject.Provider<Object>() {
 
-                            @Override
-                            public Object newInstance(Injector injector) {
-                                return new Object();
-                            }
-                        });
+                                    @Override
+                                    public Object get() {
+                                        return new Object();
+                                    }
+                                });
             }
         });
 
@@ -110,12 +91,12 @@ public class BindingtoProducerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testNullPointerWhenBindingToNullProducer() {
+    public void testNullPointerWhenBindingToNullProvider() {
         Muice.createInjector(new BindingModule() {
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(Object.class).toProducer(null);
+                binder.bind(Object.class).toProvider((javax.inject.Provider<Object>) null);
             }
         });
     }

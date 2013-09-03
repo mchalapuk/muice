@@ -143,7 +143,11 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
 
             @Override
             public T newInstance(Injector unused) {
-                return provider.get();
+                try {
+                    return (T) mKey.getRawType().cast(provider.get());
+                } catch (ClassCastException e) {
+                    throw new InjectionError("custom provider returned object of wrong type", e);
+                }
             }
         };
         return this;
