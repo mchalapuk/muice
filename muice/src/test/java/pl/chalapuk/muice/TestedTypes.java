@@ -73,6 +73,12 @@ public class TestedTypes {
         }
     }
 
+    static class WithThrowingConstructor {
+        public WithThrowingConstructor() throws Exception {
+            throw new Exception();
+        }
+    }
+    
     static class WithMultipleInjectAnnotatedConstructors {
         @Inject
         public WithMultipleInjectAnnotatedConstructors() {

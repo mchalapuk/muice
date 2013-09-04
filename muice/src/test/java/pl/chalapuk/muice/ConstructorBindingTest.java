@@ -256,6 +256,24 @@ public class ConstructorBindingTest {
         });
     }
 
+    @Test(expected = InjectionError.class)
+    public void testInjectionErrorWhenExceptionThrownFromConstructor() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                try {
+                    binder.bind(Object.class)
+                            .toConstructor(WithThrowingConstructor.class.getDeclaredConstructor());
+                } catch (NoSuchMethodException | SecurityException e) {
+                    throw new RuntimeException();
+                }
+            }
+        });
+        
+        injector.getInstance(Object.class);
+    }
+
     @Test(expected = NullPointerException.class)
     public void testBindingErrorWhenBindingClassToNullConstructor() {
         Muice.createInjector(new BindingModule() {
