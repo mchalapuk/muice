@@ -25,10 +25,6 @@ package pl.chalapuk.muice;
 @SuppressWarnings("serial")
 public class InjectionError extends RuntimeException {
 
-    public InjectionError(String message) {
-        super(message);
-    }
-
     public InjectionError(String message, Throwable cause) {
         super(message, cause);
     }
