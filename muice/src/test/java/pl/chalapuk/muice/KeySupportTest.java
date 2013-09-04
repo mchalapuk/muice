@@ -137,4 +137,84 @@ public class KeySupportTest {
         assertSame(objectParam, injector.getInstance(objectTypeLiteral));
         assertSame(genericObjectParam, injector.getInstance(genericTypeLiteral));
     }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingTypeLiteralRepresentingAlreadyBoundClass() {
+        final Object instance = new Object();
+
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toInstance(instance);
+                binder.bind(TypeLiteral.get(Object.class))
+                        .toInstance(instance);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingTypeLiteralRepresentingAlreadyBoundKey() {
+        final Object instance = new Object();
+
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Key.get(Object.class))
+                        .toInstance(instance);
+                binder.bind(TypeLiteral.get(Object.class))
+                        .toInstance(instance);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingKeyRepresentingAlreadyBoundClass() {
+        final Object instance = new Object();
+
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toInstance(instance);
+                binder.bind(Key.get(Object.class))
+                        .toInstance(instance);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingClassRepresentingAlreadyBoundTypeLiteral() {
+        final Object instance = new Object();
+
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(TypeLiteral.get(Object.class))
+                        .toInstance(instance);
+                binder.bind(Object.class)
+                        .toInstance(instance);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingClassRepresentingAlreadyBoundKey() {
+        final Object instance = new Object();
+
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Key.get(Object.class))
+                        .toInstance(instance);
+                binder.bind(Object.class)
+                        .toInstance(instance);
+            }
+        });
+    }
 }
