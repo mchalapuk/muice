@@ -174,6 +174,8 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                     return (T) mKey.getRawType().cast(provider.get());
                 } catch (ClassCastException e) {
                     throw new InjectionError("custom provider returned object of wrong type", e);
+                } catch (InjectionError e) {
+                    throw e;
                 } catch (Throwable t) {
                     throw new InjectionError("error in custom provider", t);
                 }
@@ -184,6 +186,8 @@ public class BindingBuilder<T> implements AnnotatingBuilder<T> {
                     try {
                         provider.initialize(injector);
                         mInitialized = true;
+                    } catch (InjectionError e) {
+                        throw e;
                     } catch (Throwable t) {
                         throw new InjectionError("error in initialization of custom provider", t);
                     }
