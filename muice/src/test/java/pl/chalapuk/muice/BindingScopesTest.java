@@ -39,12 +39,24 @@ public class BindingScopesTest {
     }
 
     @Test(expected = BindingError.class)
-    public void testIllegalArgumentWhenBindingSameBindingNotScopeAnnotation() {
+    public void testBindingErrorWhenBindingSameBindingNotScopeAnnotation() {
         Muice.createInjector(new BindingModule() {
 
             @Override
             public void configure(Binder binder) {
                 binder.bindScope(QualifierAnnotationA.class, Scopes.SINGLETON);
+            }
+        });
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingInScopeAnnotationNotBoundToScopeInstance() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .in(ScopeAnnotationA.class);
             }
         });
     }
