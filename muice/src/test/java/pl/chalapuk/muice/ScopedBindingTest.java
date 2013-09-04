@@ -64,6 +64,35 @@ public class ScopedBindingTest {
     }
 
     @Test
+    public void testBindingScopeAnnotatedClassToItself() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(SingletonScoped.class);
+            }
+        });
+
+        assertSame(injector.getInstance(SingletonScoped.class),
+                injector.getInstance(SingletonScoped.class));
+    }
+
+    @Test
+    public void testOverridingScopeOfScopeAnnotatedClassBoundToItself() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(SingletonScoped.class)
+                        .in(Scopes.NONE);
+            }
+        });
+
+        assertNotSame(injector.getInstance(SingletonScoped.class),
+                injector.getInstance(SingletonScoped.class));
+    }
+
+    @Test
     public void testBindingClassToProviderTypeInScopeInstance() {
         Injector injector = Muice.createInjector(new BindingModule() {
 
