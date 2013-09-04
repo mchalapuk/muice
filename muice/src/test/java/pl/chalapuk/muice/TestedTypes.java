@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import javax.inject.Inject;
 import javax.inject.Qualifier;
+import javax.inject.Scope;
 
 /**
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
@@ -157,4 +158,9 @@ public class TestedTypes {
         }
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Scope
+    public @interface ScopeAnnotationA {
+        // empty
+    }
 }
