@@ -19,6 +19,8 @@ package pl.chalapuk.muice;
 import static org.junit.Assert.*;
 import static pl.chalapuk.muice.TestedTypes.*;
 
+import javax.inject.Singleton;
+
 import org.junit.Test;
 
 /**
@@ -216,5 +218,10 @@ public class KeySupportTest {
                         .toInstance(instance);
             }
         });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalArgumentWhenCreatingKeyFromNotQualifierAnnotation() {
+        Key.get(Object.class, Singleton.class);
     }
 }
