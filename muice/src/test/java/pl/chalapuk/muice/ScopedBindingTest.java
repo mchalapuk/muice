@@ -26,6 +26,7 @@ import javax.inject.Singleton;
 import org.junit.Test;
 
 import pl.chalapuk.muice.TestedTypes.*;
+import pl.chalapuk.muice.customization.TypeInfoException;
 import pl.chalapuk.muice.internal.Scopes;
 
 /**
@@ -325,6 +326,21 @@ public class ScopedBindingTest {
         });
 
         verify(scope).decorate(eq(Key.get(Object.class)), notNull(Provider.class));
+    }
+
+    @Test
+    public void testBindingErrorWhenBindingTypeWithMultipleScopeAnnotationsToItself() {
+        try {
+            Muice.createInjector(new BindingModule() {
+
+                @Override
+                public void configure(Binder binder) {
+                    binder.bind(WithMultipleScopeAnnotations.class);
+                }
+            });
+        } catch (BindingError e) {
+            assertEquals(TypeInfoException.class, e.getCause().getClass());
+        }
     }
 
     @Test(expected = NullPointerException.class)

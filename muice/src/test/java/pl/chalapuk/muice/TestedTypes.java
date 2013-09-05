@@ -175,6 +175,12 @@ public class TestedTypes {
     static class SingletonScoped {
         // empty
     }
+    
+    @Singleton
+    @ScopeAnnotationA
+    static class WithMultipleScopeAnnotations {
+        // empty
+    }
 
     public static class WithObjectDependency {
         public final Object mInjected;
@@ -253,6 +259,22 @@ public class TestedTypes {
             this.mInjectedWithParam = withParam;
             this.mInjectedWithoutParam = withoutParam;
             this.mInjectedWithQualifier = withQualifier;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static class WithWildcardDependency {
+        @Inject
+        public WithWildcardDependency(Generic<?> dep) {
+            // empty
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static class WithTypeVariableDependency<T> {
+        @Inject
+        public WithTypeVariableDependency(Generic<T> dep) {
+            // empty
         }
     }
 }
