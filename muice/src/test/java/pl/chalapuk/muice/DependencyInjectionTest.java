@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pl.chalapuk.muice.TestedTypes.*;
+import pl.chalapuk.muice.defaults.UnsupportedTypeException;
 
 /**
  * @author maciej@chalapuk.pl (Maciej Chałapuk)
@@ -227,8 +228,27 @@ public class DependencyInjectionTest {
         assertSame(qualifiedB, injected.mInjectedQualifiedB);
     }
 
+
+    @Test
+    public void testInjectingProviderDependency() {
+        final Object instance = new Object();
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toInstance(instance);
+                binder.bind(WithProviderDependency.class);
+            }
+        });
+
+        WithProviderDependency tested = injector.getInstance(WithProviderDependency.class);
+        assertSame(instance, tested.mInjected.get());
+    }
+
     @Test(expected = BindingError.class)
-    public void testBindingErrorWhenBindingTypeToItselfWithoutBindingForDependencyConfigured() {
+    public void testBindingErrorWhenBindingTypeBeforeDependency() {
         Muice.createInjector(new BindingModule() {
 
             @Override
@@ -236,5 +256,37 @@ public class DependencyInjectionTest {
                 binder.bind(WithObjectDependency.class);
             }
         });
+    }
+
+    @Test
+    public void testBindingErrorWhenBindingTypeWithDependencyContainingWildcard() {
+        try {
+            Muice.createInjector(new BindingModule() {
+
+                @Override
+                public void configure(Binder binder) {
+                    binder.bind(WithWildcardDependency.class);
+                }
+            });
+            fail("BindingError expected");
+        } catch (BindingError e) {
+            assertEquals(UnsupportedTypeException.class, e.getCause().getClass());
+        }
+    }
+
+    @Test
+    public void testBindingErrorWhenBindingTypeWithDependencyContainingTypeVariable() {
+        try {
+            Muice.createInjector(new BindingModule() {
+
+                @Override
+                public void configure(Binder binder) {
+                    binder.bind(WithTypeVariableDependency.class);
+                }
+            });
+            fail("BindingError expected");
+        } catch (BindingError e) {
+            assertEquals(UnsupportedTypeException.class, e.getCause().getClass());
+        }
     }
 }

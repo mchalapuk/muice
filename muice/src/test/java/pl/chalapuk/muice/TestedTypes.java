@@ -208,6 +208,15 @@ public class TestedTypes {
             mInjected = object;
         }
     }
+    
+    public static class WithProviderDependency {
+        public final javax.inject.Provider<Object> mInjected;
+
+        @Inject
+        public WithProviderDependency(javax.inject.Provider<Object> object) {
+            mInjected = object;
+        }
+    }
 
     public static class WithTwoDependencies {
         public final Object mInjectedObject;

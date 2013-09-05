@@ -21,7 +21,6 @@ import java.util.Map;
 import pl.chalapuk.muice.Binding;
 import pl.chalapuk.muice.BindingError;
 import pl.chalapuk.muice.Key;
-import pl.chalapuk.muice.Provider;
 import pl.chalapuk.muice.TypeLiteral;
 import pl.chalapuk.muice.customization.BindingCollector;
 import pl.chalapuk.muice.customization.BindingCollectorFactory;
@@ -59,7 +58,7 @@ public class ExplicitCollectorFactory implements BindingCollectorFactory {
                 final Key<?>[] paramKeys = info.getParameterKeys();
                 for (int i = 0; i < paramKeys.length; ++i) {
                     Key<?> paramKey = paramKeys[i];
-                    if (paramKey.getRawType().equals(Provider.class)) {
+                    if (paramKey.getRawType().equals(javax.inject.Provider.class)) {
                         TypeLiteral<?> providedType = paramKey.getTypeLiteral().getTypeArgument(0);
                         paramKey = Key.get(providedType, paramKey.getQualifier());
                     }
