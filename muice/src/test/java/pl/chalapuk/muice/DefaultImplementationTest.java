@@ -81,6 +81,11 @@ public class DefaultImplementationTest {
         });
     }
 
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenFetchingProviderOfUnboundType() {
+        Muice.createInjector().getProvider(Object.class);
+    }
+
     private static int bindingCount(Injector injector) {
         return Iterables.size(injector.getBindings());
     }
