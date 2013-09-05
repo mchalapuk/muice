@@ -19,8 +19,6 @@ package pl.chalapuk.muice.defaults;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import com.google.common.base.Throwables;
-
 import pl.chalapuk.muice.InjectionError;
 import pl.chalapuk.muice.Injector;
 import pl.chalapuk.muice.Key;
@@ -52,9 +50,7 @@ public class ReflectionProducerFactory implements ProducerFactory {
 
                 try {
                     return (T) constructor.newInstance(args);
-                } catch (InstantiationException e) {
-                    throw new RuntimeException("BUG!", e);
-                } catch (IllegalAccessException e) {
+                } catch (InstantiationException | IllegalAccessException e) {
                     throw new RuntimeException("BUG!", e);
                 } catch (InvocationTargetException e) {
                     throw new InjectionError("exception when calling constructor "
