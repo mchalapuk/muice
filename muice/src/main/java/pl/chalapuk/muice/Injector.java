@@ -16,9 +16,6 @@
 
 package pl.chalapuk.muice;
 
-import javax.inject.Provider;
-
-
 /**
  * Builds the graphs of objects that make up your application. The injector
  * tracks the dependencies for each type and uses bindings to inject them.
@@ -74,21 +71,21 @@ public interface Injector {
      * 
      * @throws BindingError if binding for passed key is not found.
      */
-    <T> Provider<? extends T> getProvider(Key<T> key);
+    <T> javax.inject.Provider<? extends T> getProvider(Key<T> key);
 
     /**
      * Returns the provider used to obtain instances for the given type.
      * 
      * @throws BindingError if binding for passed type is not found.
      */
-    <T> Provider<? extends T> getProvider(TypeLiteral<T> typeLiteral);
+    <T> javax.inject.Provider<? extends T> getProvider(TypeLiteral<T> typeLiteral);
 
     /**
      * Returns the provider used to obtain instances for the given type.
      * 
      * @throws BindingError if binding for passed type is not found.
      */
-    <T> Provider<? extends T> getProvider(Class<T> type);
+    <T> javax.inject.Provider<? extends T> getProvider(Class<T> type);
     
     /**
      * @return all bindings used by the injector

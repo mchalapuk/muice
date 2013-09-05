@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.*;
 import java.util.Arrays;
 import java.util.Map;
 
-import javax.inject.Provider;
-
 import com.google.common.collect.Maps;
 
 import pl.chalapuk.muice.Binding;
@@ -70,13 +68,13 @@ public class InjectorBuilderImpl implements InjectorBuilder {
         checkState(mInjector == null, "injector already built");
         
         final Iterable<Binding<?>> bindings = mCollector.getBindings();
-        final Map<Key<?>, Provider<?>> scoped = Maps.newHashMap();
+        final Map<Key<?>, javax.inject.Provider<?>> scoped = Maps.newHashMap();
 
         mInjector = new Injector() {
 
             @Override
             public <T> T getInstance(Key<T> key) {
-                if (key.getRawType().equals(Provider.class)) {
+                if (key.getRawType().equals(javax.inject.Provider.class)) {
                     TypeLiteral<?> providedType = key.getTypeLiteral().getTypeArgument(0);
                     @SuppressWarnings("unchecked")
                     T provider = (T) getProvider(Key.get(providedType, key.getQualifier()));
@@ -96,8 +94,9 @@ public class InjectorBuilderImpl implements InjectorBuilder {
             }
 
             @Override
-            public <T> Provider<? extends T> getProvider(Key<T> key) {
-                Provider<? extends T> provider = (Provider<? extends T>) scoped.get(key);
+            public <T> javax.inject.Provider<? extends T> getProvider(Key<T> key) {
+                javax.inject.Provider<? extends T> provider =
+                        (javax.inject.Provider<? extends T>) scoped.get(key);
                 if (provider == null) {
                     throw new BindingError("no binding for " + key);
                 }
@@ -105,12 +104,12 @@ public class InjectorBuilderImpl implements InjectorBuilder {
             }
 
             @Override
-            public <T> Provider<? extends T> getProvider(TypeLiteral<T> typeLiteral) {
+            public <T> javax.inject.Provider<? extends T> getProvider(TypeLiteral<T> typeLiteral) {
                 return getProvider(Key.get(typeLiteral));
             }
 
             @Override
-            public <T> Provider<? extends T> getProvider(Class<T> type) {
+            public <T> javax.inject.Provider<? extends T> getProvider(Class<T> type) {
                 return getProvider(Key.get(type));
             }
 
@@ -130,10 +129,10 @@ public class InjectorBuilderImpl implements InjectorBuilder {
         return mInjector;
     }
 
-    private static <T> Provider<? extends T> applyScope(
+    private static <T> javax.inject.Provider<? extends T> applyScope(
             final Binding<T> binding, final Injector injector
             ) {
-        return binding.getScope().decorate(binding.getKey(), new Provider<T>() {
+        return binding.getScope().decorate(binding.getKey(), new javax.inject.Provider<T>() {
 
             @Override
             public T get() {
