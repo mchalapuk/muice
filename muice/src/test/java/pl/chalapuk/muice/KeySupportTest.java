@@ -140,6 +140,106 @@ public class KeySupportTest {
         assertSame(genericObjectParam, injector.getInstance(genericTypeLiteral));
     }
 
+    @Test
+    public void testDistinctionBetweenSimpleAndBoxedBooleans() {
+        final boolean simple = true;
+        final Boolean boxed = false;
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(boolean.class)
+                        .toInstance(simple);
+                binder.bind(Boolean.class)
+                        .toInstance(boxed);
+            }
+        });
+
+        assertEquals(simple, injector.getInstance(boolean.class));
+        assertEquals(boxed, injector.getInstance(Boolean.class));
+    }
+
+    @Test
+    public void testDistinctionBetweenSimpleAndBoxedIntegers() {
+        final int simple = 0;
+        final Integer boxed = 1;
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(int.class)
+                        .toInstance(simple);
+                binder.bind(Integer.class)
+                        .toInstance(boxed);
+            }
+        });
+
+        assertEquals((Integer) simple, injector.getInstance(int.class));
+        assertEquals(boxed, injector.getInstance(Integer.class));
+    }
+
+    @Test
+    public void testDistinctionBetweenSimpleAndBoxedLongs() {
+        final long simple = 0;
+        final Long boxed = 1l;
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(long.class)
+                        .toInstance(simple);
+                binder.bind(Long.class)
+                        .toInstance(boxed);
+            }
+        });
+
+        assertEquals((Long) simple, injector.getInstance(long.class));
+        assertEquals(boxed, injector.getInstance(Long.class));
+    }
+
+    @Test
+    public void testDistinctionBetweenSimpleAndBoxedFloats() {
+        final float simple = 0;
+        final Float boxed = 1f;
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(float.class)
+                        .toInstance(simple);
+                binder.bind(Float.class)
+                        .toInstance(boxed);
+            }
+        });
+
+        assertEquals((Float) simple, injector.getInstance(float.class));
+        assertEquals(boxed, injector.getInstance(Float.class));
+    }
+
+    @Test
+    public void testDistinctionBetweenSimpleAndBoxedDoubles() {
+        final double simple = 0;
+        final Double boxed = 1d;
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(double.class)
+                        .toInstance(simple);
+                binder.bind(Double.class)
+                        .toInstance(boxed);
+            }
+        });
+
+        assertEquals((Double) simple, injector.getInstance(double.class));
+        assertEquals(boxed, injector.getInstance(Double.class));
+    }
+
     @Test(expected = BindingError.class)
     public void testBindingErrorWhenBindingTypeLiteralRepresentingAlreadyBoundClass() {
         final Object instance = new Object();
