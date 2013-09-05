@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pl.chalapuk.muice.TestedTypes.*;
+import pl.chalapuk.muice.customization.TypeInfoException;
 import pl.chalapuk.muice.defaults.UnsupportedTypeException;
 
 /**
@@ -287,6 +288,22 @@ public class DependencyInjectionTest {
             fail("BindingError expected");
         } catch (BindingError e) {
             assertEquals(UnsupportedTypeException.class, e.getCause().getClass());
+        }
+    }
+
+    @Test
+    public void testBindingErrorWhenBindingTypeWithDependencyQualifiedTwice() {
+        try {
+            Muice.createInjector(new BindingModule() {
+
+                @Override
+                public void configure(Binder binder) {
+                    binder.bind(WithDependencyQualifiedTwice.class);
+                }
+            });
+            fail("BindingError expected");
+        } catch (BindingError e) {
+            assertEquals(TypeInfoException.class, e.getCause().getClass());
         }
     }
 }

@@ -175,7 +175,7 @@ public class TestedTypes {
     static class SingletonScoped {
         // empty
     }
-    
+
     @Singleton
     @ScopeAnnotationA
     static class WithMultipleScopeAnnotations {
@@ -208,7 +208,7 @@ public class TestedTypes {
             mInjected = object;
         }
     }
-    
+
     public static class WithProviderDependency {
         public final javax.inject.Provider<Object> mInjected;
 
@@ -283,6 +283,15 @@ public class TestedTypes {
     public static class WithTypeVariableDependency<T> {
         @Inject
         public WithTypeVariableDependency(Generic<T> dep) {
+            // empty
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static class WithDependencyQualifiedTwice {
+        @Inject
+        public WithDependencyQualifiedTwice(
+                @QualifierAnnotationA @QualifierAnnotationB Object dep) {
             // empty
         }
     }
