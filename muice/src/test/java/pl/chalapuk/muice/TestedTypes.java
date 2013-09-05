@@ -79,7 +79,7 @@ public class TestedTypes {
             throw new Exception();
         }
     }
-    
+
     static class WithMultipleInjectAnnotatedConstructors {
         @Inject
         public WithMultipleInjectAnnotatedConstructors() {
@@ -136,7 +136,7 @@ public class TestedTypes {
     @interface QualifierAnnotationB {
         // marker
     }
-    
+
     public static class ObjectProvider implements javax.inject.Provider<Object> {
 
         @Override
@@ -144,7 +144,7 @@ public class TestedTypes {
             return new Object();
         }
     }
-    
+
     static class ThrowingFromGetProvider implements javax.inject.Provider<Object> {
 
         @Override
@@ -152,13 +152,13 @@ public class TestedTypes {
             throw new RuntimeException();
         }
     }
-    
+
     static class ThrowingFromConstructorProvider implements javax.inject.Provider<Object> {
 
         public ThrowingFromConstructorProvider() {
             throw new RuntimeException();
         }
-        
+
         @Override
         public Object get() {
             return null;
@@ -170,9 +170,89 @@ public class TestedTypes {
     public @interface ScopeAnnotationA {
         // empty
     }
-    
+
     @Singleton
     static class SingletonScoped {
         // empty
+    }
+
+    public static class WithObjectDependency {
+        public final Object mInjected;
+
+        @Inject
+        public WithObjectDependency(Object object) {
+            mInjected = object;
+        }
+    }
+
+    public static class WithGenericDependency {
+        public final Generic<Object> mInjected;
+
+        @Inject
+        public WithGenericDependency(Generic<Object> object) {
+            mInjected = object;
+        }
+    }
+
+    public static class WithQualifiedDependency {
+        public final Object mInjected;
+
+        @Inject
+        public WithQualifiedDependency(@QualifierAnnotationA Object object) {
+            mInjected = object;
+        }
+    }
+
+    public static class WithTwoDependencies {
+        public final Object mInjectedObject;
+        public final Interface mInjectedInterface;
+
+        @Inject
+        public WithTwoDependencies(Object object, Interface inter) {
+            mInjectedObject = object;
+            mInjectedInterface = inter;
+        }
+    }
+
+    public static class WithTwoGenericDependencies {
+        public final Generic<Interface> mInjectedInterface;
+        public final Generic<Object> mInjectedObject;
+
+        @Inject
+        public WithTwoGenericDependencies(Generic<Interface> withInterface,
+                Generic<Object> withObject) {
+            mInjectedInterface = withInterface;
+            mInjectedObject = withObject;
+        }
+    }
+
+    public static class WithTwoQualifiedDependencies {
+        public final Object mInjectedQualifiedA;
+        public final Object mInjectedQualifiedB;
+
+        @Inject
+        public WithTwoQualifiedDependencies(
+                @QualifierAnnotationA Object qualifiedA,
+                @QualifierAnnotationB Object qualifiedB) {
+            mInjectedQualifiedA = qualifiedA;
+            mInjectedQualifiedB = qualifiedB;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static class WithThreeDependencies {
+        public final Generic<Object> mInjectedWithParam;
+        public final Generic<?> mInjectedWithoutParam;
+        public final Generic<?> mInjectedWithQualifier;
+
+        @Inject
+        public WithThreeDependencies(
+                Generic<Object> withParam,
+                Generic withoutParam,
+                @QualifierAnnotationA Generic withQualifier) {
+            this.mInjectedWithParam = withParam;
+            this.mInjectedWithoutParam = withoutParam;
+            this.mInjectedWithQualifier = withQualifier;
+        }
     }
 }
