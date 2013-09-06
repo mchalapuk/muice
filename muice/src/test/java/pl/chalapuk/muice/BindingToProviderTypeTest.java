@@ -124,6 +124,18 @@ public class BindingToProviderTypeTest {
         assertEquals(1, CountingProvider.sCount);
     }
 
+    @Test(expected = BindingError.class)
+    public void testBindingErrorBindingToUnknownProviderType() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toProvider(CountingProvider.class);
+            }
+        });
+    }
+
     @Test
     public void testInjectionErrorWhenObjectOfIncompatibleTypeProvided() {
 
