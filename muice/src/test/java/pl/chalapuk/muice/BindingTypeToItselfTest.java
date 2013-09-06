@@ -70,7 +70,7 @@ public class BindingTypeToItselfTest {
             }
         });
 
-        assertNotNull(injector.getInstance(TypeLiteral.get(Generic.class, Object.class)));
+        assertNotNull(injector.getProvider(TypeLiteral.get(Generic.class, Object.class)).get());
     }
 
     @Test
