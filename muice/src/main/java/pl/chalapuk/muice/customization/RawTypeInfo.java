@@ -17,7 +17,6 @@
 package pl.chalapuk.muice.customization;
 
 import java.lang.annotation.Annotation;
-import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -59,25 +58,5 @@ public class RawTypeInfo<T> {
     @Nullable
     public Class<? extends Annotation> getScopeAnnotation() {
         return mScopeAnnotation;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(mConstructorInfo, mScopeAnnotation);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-
-        @SuppressWarnings("unchecked")
-        RawTypeInfo<T> other = (RawTypeInfo<T>) obj;
-        return mConstructorInfo.equals(other.mConstructorInfo)
-                && mScopeAnnotation.equals(other.mScopeAnnotation);
     }
 }

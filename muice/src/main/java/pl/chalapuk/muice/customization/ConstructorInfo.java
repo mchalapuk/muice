@@ -19,9 +19,6 @@ package pl.chalapuk.muice.customization;
 import static com.google.common.base.Preconditions.*;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
-
-import com.google.common.base.Objects;
 
 import pl.chalapuk.muice.Key;
 
@@ -65,25 +62,5 @@ public class ConstructorInfo<T> {
 
     public boolean isInjectAnnotated() {
         return mInjectAnnotated;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(mConstructor, Arrays.hashCode(mParameterKeys));
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-
-        @SuppressWarnings("unchecked")
-        ConstructorInfo<T> other = (ConstructorInfo<T>) obj;
-        return mConstructor.equals(other.mConstructor)
-                && Arrays.equals(mParameterKeys, other.mParameterKeys);
     }
 }
