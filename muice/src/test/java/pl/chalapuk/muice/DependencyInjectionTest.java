@@ -48,6 +48,24 @@ public class DependencyInjectionTest {
     }
 
     @Test
+    public void testInjectingDependencyWithnotQuelifierAnnotation() {
+        final Object instance = new Object();
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toInstance(instance);
+                binder.bind(WithAnnotatedDependency.class);
+            }
+        });
+
+        WithAnnotatedDependency tested = injector.getInstance(WithAnnotatedDependency.class);
+        assertSame(instance, tested.mInjected);
+    }
+
+    @Test
     public void testInjectingDependencyOfGenericType() {
         final Generic<Object> instance = new Generic<Object>() {
             // empty
