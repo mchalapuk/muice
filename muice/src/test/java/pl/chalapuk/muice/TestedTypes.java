@@ -19,6 +19,7 @@ package pl.chalapuk.muice;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Qualifier;
 import javax.inject.Scope;
@@ -176,6 +177,16 @@ public class TestedTypes {
         // empty
     }
 
+    @ScopeAnnotationA
+    static class CustomScopeAnnotated {
+        // empty
+    }
+    
+    @Nullable
+    static class Annotated {
+        // empty
+    }
+
     @Singleton
     @ScopeAnnotationA
     static class WithMultipleScopeAnnotations {
@@ -187,6 +198,15 @@ public class TestedTypes {
 
         @Inject
         public WithObjectDependency(Object object) {
+            mInjected = object;
+        }
+    }
+
+    public static class WithAnnotatedDependency {
+        public final Object mInjected;
+
+        @Inject
+        public WithAnnotatedDependency(@Deprecated Object object) {
             mInjected = object;
         }
     }

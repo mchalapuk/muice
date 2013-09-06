@@ -94,6 +94,20 @@ public class ScopedBindingTest {
     }
 
     @Test
+    public void testBindingClassWithAnnotationOtherThanScopeToItself() {
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Annotated.class);
+            }
+        });
+
+        assertNotSame(injector.getInstance(Annotated.class),
+                injector.getInstance(Annotated.class));
+    }
+
+    @Test
     public void testBindingClassToProviderTypeInScopeInstance() {
         Injector injector = Muice.createInjector(new BindingModule() {
 
@@ -341,6 +355,17 @@ public class ScopedBindingTest {
         } catch (BindingError e) {
             assertEquals(TypeInfoException.class, e.getCause().getClass());
         }
+    }
+
+    @Test(expected = BindingError.class)
+    public void testBindingErrorWhenBindingTypeWithUnknownScopeAnnotationsToItself() {
+        Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(CustomScopeAnnotated.class);
+            }
+        });
     }
 
     @Test(expected = NullPointerException.class)
