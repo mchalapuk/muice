@@ -44,6 +44,23 @@ public class LinkedBindingTest {
     }
 
     @Test
+    public void testLinkingToGenericBoundToItself() {
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(TypeLiteral.get(Generic.class, String.class));
+                binder.bind(Object.class)
+                        .to(TypeLiteral.get(Generic.class, String.class));
+            }
+        });
+
+        assertEquals(Generic.class,
+                injector.getInstance(Object.class).getClass());
+    }
+
+    @Test
     public void testLinkingToClassBoundToInstance() {
         final WithDefaultConstructor instance = new WithDefaultConstructor();
 
