@@ -193,7 +193,7 @@ public class BindindToMuiceProviderTest {
 
         try {
             injector.getInstance(Generic.class);
-            fail("expected "+ InjectionError.class);
+            fail("expected " + InjectionError.class);
         } catch (InjectionError e) {
             assertEquals(ClassCastException.class, e.getCause().getClass());
         }
@@ -224,12 +224,12 @@ public class BindindToMuiceProviderTest {
 
         try {
             injector.getInstance(Object.class);
-            fail("expected "+ InjectionError.class);
+            fail("expected " + InjectionError.class);
         } catch (InjectionError e) {
             assertEquals(RuntimeException.class, e.getCause().getClass());
         }
     }
-    
+
     @Test
     public void testInjectionErrorWhenProviderInitializeThrowsRuntimeException() {
 
@@ -252,12 +252,44 @@ public class BindindToMuiceProviderTest {
                         });
             }
         });
+        
+        try {
+            injector.getInstance(Object.class);
+            fail("expected " + InjectionError.class);
+        } catch (InjectionError e) {
+            assertEquals(RuntimeException.class, e.getCause().getClass());
+        }
+    }
+
+    @Test
+    public void testInjectionPropagatedWhenTHrownFromCustomProvider() {
+        final InjectionError error = new InjectionError("test", new Exception());
+
+        Injector injector = Muice.createInjector(new BindingModule() {
+
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Object.class)
+                        .toProvider(new Provider<Object>() {
+
+                            @Override
+                            public Object get() {
+                                throw error;
+                            }
+
+                            @Override
+                            public void initialize(Injector unused) {
+                                // do nothing
+                            }
+                        });
+            }
+        });
 
         try {
             injector.getInstance(Object.class);
-            fail("expected "+ InjectionError.class);
+            fail("expected " + InjectionError.class);
         } catch (InjectionError e) {
-            assertEquals(RuntimeException.class, e.getCause().getClass());
+            assertSame(error, e);
         }
     }
 
