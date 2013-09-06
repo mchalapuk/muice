@@ -238,12 +238,20 @@ public class Muice {
         return new InjectorBuilderImpl(collector, binder).withModules(mBootModules);
     }
 
+    /*
+     * This method is not needed here, It's added just to fulfill the contract
+     * with equals.
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(mTypeInfoFactory, mProducerFactory, mCollectorFactory,
                 Arrays.hashCode(mBootModules), mDefaultScope);
     }
 
+    /*
+     * This method is not needed here, It's added just to enable testing
+     * MuiceBuilder behavior without breaking encapsulation of Muice objects.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
