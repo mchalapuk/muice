@@ -4,7 +4,7 @@
 
 	<groupId>pl.chalapuk.muice</groupId>
 	<artifactId>muice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 
 	<name>Muice</name>
 	<description>Guice for mobile - Alternative Guice implementation focused on efficiency.</description>
