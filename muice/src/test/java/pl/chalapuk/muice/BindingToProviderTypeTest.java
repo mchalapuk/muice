@@ -89,15 +89,16 @@ public class BindingToProviderTypeTest {
 
         Injector injector = Muice.createInjector(new BindingModule() {
 
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings({
+                    "unchecked", "rawtypes"
+            })
             @Override
             public void configure(Binder binder) {
                 binder.bind(Object.class)
                         .toInstance(dependency);
                 binder.bind(ProviderWithDependency.class);
                 binder.bind(Generic.class)
-                        .toProvider(
-                                (Class<? extends javax.inject.Provider<Generic<?>>>) ProviderWithDependency.class);
+                        .toProvider((Class) ProviderWithDependency.class);
             }
         });
 
@@ -141,13 +142,14 @@ public class BindingToProviderTypeTest {
 
         Injector injector = Muice.createInjector(new BindingModule() {
 
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings({
+                    "unchecked", "rawtypes"
+            })
             @Override
             public void configure(Binder binder) {
                 binder.bind(CountingProvider.class);
                 binder.bind(Generic.class)
-                        .toProvider(
-                                (Class<? extends javax.inject.Provider<? extends Generic<?>>>) CountingProvider.class);
+                        .toProvider((Class) CountingProvider.class);
             }
         });
 
