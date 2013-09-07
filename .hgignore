@@ -5,3 +5,5 @@ syntax: glob
 .project
 *~
 .settings/*
+dependency-reduced-pom.xml
+
