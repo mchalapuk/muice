@@ -5,6 +5,7 @@
 	<groupId>pl.chalapuk.muice</groupId>
 	<artifactId>muice</artifactId>
 	<version>0.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 	<name>Muice</name>
 	<description>
@@ -99,6 +100,9 @@
 						<goals>
 							<goal>test-jar</goal>
 						</goals>
+						<configuration>
+							<classifier>tests</classifier>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -123,6 +127,9 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<classifier>uberjar</classifier>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
