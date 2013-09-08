@@ -21,6 +21,19 @@
 		</license>
 	</licenses>
 
+	<developers>
+		<developer>
+			<id>maciej</id>
+			<name>Maciej Chałapuk</name>
+			<email>maciej@chalapuk.pl</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
 	<scm>
 		<connection>scm:hg:https://code.google.com/p/muice/</connection>
 		<url>http://code.google.com/p/muice/source/browse/#hg%2Fmuice%2Fsrc%2Fmain%2Fjava%2Fpl%2Fchalapuk%2Fmuice</url>
