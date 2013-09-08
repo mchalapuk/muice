@@ -22,6 +22,7 @@
 	</licenses>
 
 	<scm>
+		<connection>scm:hg:https://code.google.com/p/muice/</connection>
 		<url>http://code.google.com/p/muice/source/browse/#hg%2Fmuice%2Fsrc%2Fmain%2Fjava%2Fpl%2Fchalapuk%2Fmuice</url>
 	</scm>
 
