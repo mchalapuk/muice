@@ -1,0 +1,36 @@
+{
+  'milestones': [
+  {
+    'title': "Muice vs. Guice",
+    'content': [
+      "benchmarks comparing Muice and Guice efficiency",
+      ],
+    'completed-on': "07-09-2013"
+  },
+  {
+    'title': "Null Injections",
+    'content': [
+      "support for <code>@Nullable</code> annotation in injection points",
+      ]
+  },
+  {
+    'title': "Fully Static",
+    'content': [
+      "TypeInfoFactory and ProducerFactory source code generator",
+      "Guidelines for reflectionless injection",
+      ]
+  },
+  {
+    'title': "Assisted Inject",
+    'content': [
+      "Muice version of AssistedInjection Guice extension",
+      ]
+  },
+  {
+    'title': "Refined Muice",
+    'content': [
+      "Collective binding error reporting",
+      ]
+  },
+  ]
+}
