@@ -26,11 +26,11 @@ Guice provides its own version of @Inject annotation and declares @BindingAnnota
 
 Internals of Muice are completely different than Guice internals.
 
-Besides Guice functionality, Muice provides a possibility to customize injector creation process (see [MuiceBuilder](https://github.com/muroc/muice/tree/master/src/main/java/pl/chalapuk/muice/customization/MuiceBuilder.java)).
+Besides Guice functionality, Muice provides a possibility to customize injector creation process (see [MuiceBuilder](https://github.com/muroc/muice/blob/master/muice/src/main/java/pl/chalapuk/muice/customization/MuiceBuilder.java)).
 
 ## Documentation
 
-Documentation can be found in the source code. !JavaDoc of [Muice](https://github.com/muroc/muice/tree/master/src/main/java/pl/chalapuk/muice/Muice.java) and [Binder](https://github.com/muroc/muice/tree/master//src/main/java/pl/chalapuk/muice/Binder.java) classes are good starting points. 
+Documentation can be found in the source code. !JavaDoc of [Muice](https://github.com/muroc/muice/blob/master/muice/src/main/java/pl/chalapuk/muice/Muice.java) and [Binder](https://github.com/muroc/muice/blob/master/muice/src/main/java/pl/chalapuk/muice/Binder.java) classes are good starting points. 
 
 ## Downloads
 
