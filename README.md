@@ -10,7 +10,7 @@
 > in most extreme cases.
 > 
 > If micro-optimization is really needed, [Dagger](https://github.com/square/dagger)
-> will may a better choice. It is actively developed and provides
+> may be a better choice. It is actively developed and provides
 > more features. Dagger presents better performance than Muice and Guice,
 > because its injectors do not use Java reflection.
 > 
