@@ -1,3 +1,22 @@
+> # DISCLAIMER
+> Although this library may perform better than Guice,
+> I (author) strongly **DISCOURAGE ANY USAGE OF THIS LIBRARY**!
+> 
+> In most cases, [Guice](http://code.google.com/p/google-guice/)
+> is the way to go. Startup performance problems in mobile apps
+> should to be dealt with by applying lazy loading technique.
+> Changing DI framework for performance-related reasons is a form
+> of micro-optimization, which should be used as last resort
+> in most extreme cases.
+> 
+> If micro-optimization is really needed, [Dagger](https://github.com/square/dagger)
+> will may a better choice. It is actively developed and provides
+> more features. Dagger presents better performance than Muice and Guice,
+> because its injectors do not use Java reflection.
+> 
+> 
+</div>
+
 # Inject with Efficiency!
 
 Muice is a clone of [Google Guice](http://code.google.com/p/google-guice/) dependency injection library. In comparison with the original, Muice is far more efficient at cost of limited functionality. Motivation behind Muice is that Guice is hardly applicable for use in mobile applications, which require fast start-up time.
