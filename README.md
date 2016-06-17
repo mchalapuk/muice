@@ -54,3 +54,4 @@ Documentation can be found in the source code. !JavaDoc of [Muice](https://githu
 ## Downloads
 
 Project archives can be downloaded from [maven central repository](http://search.maven.org/#artifactdetails|pl.chalapuk.muice|muice|0.1|jar).
+ 
