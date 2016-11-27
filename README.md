@@ -1,4 +1,4 @@
-> # DISCLAIMER
+> # NOTE
 > Although this library may perform better than Guice,
 > I (author) strongly **DISCOURAGE ANY USAGE OF THIS LIBRARY**!
 > 
@@ -55,3 +55,6 @@ Documentation can be found in the source code. !JavaDoc of [Muice](https://githu
 
 Project archives can be downloaded from [maven central repository](http://search.maven.org/#artifactdetails|pl.chalapuk.muice|muice|0.1|jar).
  
+## License
+
+Copyright &copy; Maciej Chałapuk 2016. Released under [Apache License 2.0](LICENSE).
